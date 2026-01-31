@@ -5,6 +5,7 @@
 #include "dynamic_array.h"
 #include "house_constructor.h"
 #include "site_999.h"
+#include "statistics.h"
 
 void abstract_factory();
 
@@ -12,7 +13,12 @@ void factory_method();
 
 
 int main() {
-    factory_method();
+    abstract_factory();
+
+    statistics* statistics = get_static_statistics();
+    statistics = statistics->static_vtable->get_instance(statistics);
+
+    statistics->vtable->print_created_houses_count(statistics);
 }
 
 

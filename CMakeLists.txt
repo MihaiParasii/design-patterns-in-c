@@ -20,4 +20,6 @@ add_executable(Lab2 main.c
         dynamic_array.h
         site_999.c
         site_999.h
+        statistics.c
+        statistics.h
 )
