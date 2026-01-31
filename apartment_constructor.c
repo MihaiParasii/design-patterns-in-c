@@ -5,7 +5,8 @@
 #include "apartment.h"
 
 const house_constructor_vtable apartment_constructor_vtable = {
-    .construct_house = (base_house *(*)()) new_apartment
+    .construct_house = (base_house *(*)()) new_apartment,
+    .print_a_new_house = print_a_new_house
 };
 
 
