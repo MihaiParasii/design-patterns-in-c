@@ -3,22 +3,29 @@
 #include "apartment_constructor.h"
 #include "ground_house_constructor.h"
 #include "dynamic_array.h"
+#include "en_statistics_saver_builder.h"
 #include "house_constructor.h"
+#include "i_statistics_saver_builder.h"
+#include "ro_statistics_saver_builder.h"
+#include "ru_statistics_saver_builder.h"
 #include "site_999.h"
 #include "statistics.h"
+#include "statistics_saver_director.h"
 
 void abstract_factory();
 
 void factory_method();
 
+void builder_pattern(int created_houses_count);
 
 int main() {
     abstract_factory();
 
-    statistics* statistics = get_static_statistics();
+    statistics *statistics = get_static_statistics();
     statistics = statistics->static_vtable->get_instance(statistics);
 
-    statistics->vtable->print_created_houses_count(statistics);
+    const int created_houses_count = statistics->vtable->get_created_houses_count(statistics);
+    builder_pattern(created_houses_count);
 }
 
 
@@ -60,4 +67,55 @@ void factory_method() {
 
     apartment_constructor->vtable->print_a_new_house(apartment_constructor);
     ground_house_constructor->vtable->print_a_new_house(ground_house_constructor);
+}
+
+void builder_pattern(const int created_houses_count) {
+    i_statistics_saver_builder *builder;
+    statistics_saver_director *director;
+    char *result;
+
+    printf("--->>> Short versions <<<---\n");
+    builder = (i_statistics_saver_builder *) new__en_full_statistics_builder();
+    director = new__statistics_saver_director(builder);
+
+    director->vtable->construct_short(director, created_houses_count);
+    result = builder->vtable->get(builder);
+    printf("%s\n\n", result);
+
+    builder = (i_statistics_saver_builder *) new__ro_full_statistics_builder();
+    director = new__statistics_saver_director(builder);
+
+    director->vtable->construct_short(director, created_houses_count);
+    result = builder->vtable->get(builder);
+    printf("%s\n\n", result);
+    
+    builder = (i_statistics_saver_builder *) new__ru_full_statistics_builder();
+    director = new__statistics_saver_director(builder);
+
+    director->vtable->construct_short(director, created_houses_count);
+    result = builder->vtable->get(builder);
+    printf("%s\n\n", result);
+
+    
+    printf("--->>> Long versions <<<---\n");
+    builder = (i_statistics_saver_builder *) new__en_full_statistics_builder();
+    director = new__statistics_saver_director(builder);
+
+    director->vtable->construct_long(director, created_houses_count);
+    result = builder->vtable->get(builder);
+    printf("%s\n\n", result);
+
+    builder = (i_statistics_saver_builder *) new__ro_full_statistics_builder();
+    director = new__statistics_saver_director(builder);
+
+    director->vtable->construct_long(director, created_houses_count);
+    result = builder->vtable->get(builder);
+    printf("%s\n\n", result);
+    
+    builder = (i_statistics_saver_builder *) new__ru_full_statistics_builder();
+    director = new__statistics_saver_director(builder);
+
+    director->vtable->construct_long(director, created_houses_count);
+    result = builder->vtable->get(builder);
+    printf("%s\n\n", result);
 }

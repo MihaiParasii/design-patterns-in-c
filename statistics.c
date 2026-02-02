@@ -11,6 +11,12 @@ void print_created_houses_count(void *self) {
     printf("In the application was created %d houses.\n", s->__created_houses_count);
 }
 
+int get_created_houses_count(void *self) {
+    const statistics *s = (statistics *) self;
+
+    return s->__created_houses_count;
+}
+
 void increase_created_houses(void *self) {
     statistics *s = self;
 
@@ -20,7 +26,8 @@ void increase_created_houses(void *self) {
 
 statistics_vtable statistics_v_table = {
     .print_created_houses_count = print_created_houses_count,
-    .increate_created_houses = increase_created_houses
+    .increate_created_houses = increase_created_houses,
+    .get_created_houses_count = get_created_houses_count
 };
 
 statistics *get_instance(void *self) {

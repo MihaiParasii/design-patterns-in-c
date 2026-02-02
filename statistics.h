@@ -6,6 +6,8 @@ typedef struct statistics statistics;
 typedef struct statistics_vtable {
     void (*print_created_houses_count)(void *self);
 
+    int (*get_created_houses_count)(void *self);
+
     void (*increate_created_houses)(void *self);
 } statistics_vtable;
 

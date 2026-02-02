@@ -22,4 +22,14 @@ add_executable(Lab2 main.c
         site_999.h
         statistics.c
         statistics.h
+        i_statistics_saver_builder.h
+        i_statistics_saver_builder.c
+        ro_statistics_saver_builder.c
+        ro_statistics_saver_builder.h
+        ru_statistics_saver_builder.c
+        ru_statistics_saver_builder.h
+        en_statistics_saver_builder.c
+        en_statistics_saver_builder.h
+        statistics_saver_director.c
+        statistics_saver_director.h
 )
