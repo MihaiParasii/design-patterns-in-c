@@ -2,8 +2,7 @@
 
 #include <stdlib.h>
 
-// method(void, add_back, base_house* house)
-void add_back(void *self, base_house *house)
+void add_back(void *self, base_house *object)
 {
     dynamic_array *array = self;
     if (array->size == array->capacity) {
@@ -11,7 +10,7 @@ void add_back(void *self, base_house *house)
         array->data = realloc(array->data, array->capacity * sizeof(base_house *));
     }
 
-    array->data[array->size++] = house;
+    array->data[array->size++] = object;
 }
 
 void remove_back(void *self) {

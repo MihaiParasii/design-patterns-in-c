@@ -16,6 +16,9 @@
 #define _new(type, ...) _new__##type(__VA_ARGS__)
 #define s_new(type, ...) s_new__##type(__VA_ARGS__)
 
+//TODO: to make array as generic
+#define new_array(type) 
+
 #define class_(typedef_name) typedef struct typedef_name typedef_name; struct typedef_name
 #define vtable_(class_name) typedef struct class_name##__vtable class_name##__vtable; struct class_name##__vtable
 #define s_vtable_(class_name) typedef struct class_name##__s_vtable class_name##__s_vtable; struct class_name##__s_vtable

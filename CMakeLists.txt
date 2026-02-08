@@ -36,4 +36,10 @@ add_executable(Lab2 main.c
         builder/base_statistics_saver_builder.h
         trash.c
         models/base_house.c
+        common/i_as_json.h
+        adapter/external_flat_json_adapter.c
+        adapter/external_flat_json_adapter.h
+        adapter/external_flat.h
+        adapter/external_flat_provider.c
+        adapter/external_flat_provider.h
 )

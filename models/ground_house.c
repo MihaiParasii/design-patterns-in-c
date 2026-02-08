@@ -26,12 +26,26 @@ void *ground_house_clone(void *self) {
     return new_gh;
 }
 
+char *ground_house_to_json(void *self) {
+    ground_house *gh = self;
+    char *json = malloc(256 * sizeof(char));
+    sprintf(json, "{ \"number_of_rooms\": %d, \"has_fantana\": %s }",
+            gh->base_house__base.number_of_rooms,
+            gh->has_fantana ? "true" : "false");
+
+    return json;
+}
+
 base_house__vtable ground_house_v_table = {
     .print_myself = print_myself_ground_house
 };
 
 i_prototype__vtable ground_house_prototype_v_table = {
     .clone = ground_house_clone
+};
+
+i_as_json__vtable ground_house_as_json_v_table = {
+    .to_json = ground_house_to_json
 };
 
 void _init_v_tables_gh(ground_house *a) {
@@ -41,6 +55,7 @@ void _init_v_tables_gh(ground_house *a) {
 
     a->base_house__base.vtable = &ground_house_v_table;
     a->base_house__base.i_prototype.vtable = &ground_house_prototype_v_table;
+    a->base_house__base.i_as_json.vtable = &ground_house_as_json_v_table;
 }
 
 

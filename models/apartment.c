@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "statistics.h"
 
@@ -23,6 +24,15 @@ void *apartment_clone(void *self) {
     return new_apartment;
 }
 
+char *apartment_to_json(void *self) {
+    apartment *a = self;
+    char *json = malloc(100);
+    sprintf(json, "{ \"number_of_rooms\": %d, \"floor\": %d }",
+            a->base_house__base.number_of_rooms,
+            a->floor);
+
+    return json;
+}
 
 base_house__vtable apartment_v_table = {
     .print_myself = print_myself_apartment,
@@ -32,6 +42,10 @@ i_prototype__vtable apartment_prototype_v_table = {
     .clone = apartment_clone
 };
 
+i_as_json__vtable apartment_as_json_v_table = {
+    .to_json = apartment_to_json
+};
+
 void _init_v_tables_a(apartment *a) {
     if (a == NULL) {
         return;
@@ -39,6 +53,7 @@ void _init_v_tables_a(apartment *a) {
 
     a->base_house__base.vtable = &apartment_v_table;
     a->base_house__base.i_prototype.vtable = &apartment_prototype_v_table;
+    a->base_house__base.i_as_json.vtable = &apartment_as_json_v_table;
 }
 
 apartment *new__apartment0(void) {

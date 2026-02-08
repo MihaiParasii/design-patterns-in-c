@@ -2,6 +2,7 @@
 #define BASE_HOUSE_H
 #include "../defines.h"
 #include "../common/i_prototype.h"
+#include "../common/i_as_json.h"
 
 
 vtable_(base_house) {
@@ -10,6 +11,7 @@ vtable_(base_house) {
 
 class_(base_house) {
     implements_(i_prototype);
+    implements_(i_as_json);
     base_house__vtable *vtable;
     int number_of_rooms;
 };

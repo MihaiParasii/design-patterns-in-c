@@ -12,6 +12,8 @@
 #include "defines.h"
 #include "models/apartment.h"
 #include "models/ground_house.h"
+#include "adapter/external_flat_provider.h"
+#include "adapter/external_flat_json_adapter.h"
 
 void abstract_factory();
 
@@ -21,9 +23,12 @@ void builder_pattern(int created_houses_count);
 
 void prototype();
 
+void adapter();
+
 
 int main() {
-    prototype();
+    adapter();
+    //    prototype();
 
     // abstract_factory();
 
@@ -148,5 +153,30 @@ void prototype() {
         printf("NEW: ->>|");
         call(cloned_houses[i], print_myself);
         printf("\n");
+    }
+}
+
+void adapter() {
+    apartment *a1 = new(apartment, 4);
+    apartment *a2 = new(apartment, 4, 7);
+    ground_house *gh1 = new(ground_house);
+    ground_house *gh2 = new(ground_house, TRUE);
+
+    external_flat_provider *provider = s_new(external_flat_provider);
+    external_flat **flats = s_call(provider, get_flats);
+    external_flat_json_adapter *adapter = new(external_flat_json_adapter, flats[0]);
+
+
+    i_as_json *json_data[5] = {
+        &a1->base_house__base.i_as_json,
+        &a2->base_house__base.i_as_json,
+        &gh1->base_house__base.i_as_json,
+        &gh2->base_house__base.i_as_json,
+        &adapter->i_as_json
+    };
+
+    // client code
+    for (int i = 0; i < 5; ++i) {
+        printf("json: %s\n", call(json_data[i], to_json));
     }
 }

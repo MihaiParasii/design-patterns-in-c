@@ -6,7 +6,7 @@
 #include "../defines.h"
 
 vtable_(dynamic_array) {
-    method_(void, add_back, base_house* base_house);
+    method_(void, add_back, base_house* object);
 
     method_(void, remove_back);
 
