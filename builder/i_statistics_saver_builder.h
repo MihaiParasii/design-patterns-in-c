@@ -18,10 +18,6 @@ vtable_(i_statistics_saver_builder) {
     method_(i_statistics_saver_builder *, with_current_time, time_t time);
 
     method_(char *, get);
-
-    method_(void, __alloc_memory, size_t size);
-
-    method_(void, __append, const char *text);
 };
 
 class_(i_statistics_saver_builder) {
