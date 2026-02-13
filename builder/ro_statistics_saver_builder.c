@@ -5,19 +5,22 @@
 #include "i_statistics_saver_builder.h"
 #include "ro_statistics_saver_builder.h"
 
+#include "static_statistics_saver_builder.h"
+
 i_statistics_saver_builder *with_name__ro(void *self, const char *name) {
     ro_statistics_saver_builder *s = self;
     size_t name_len = strlen(name);
 
-    s_call(&s->base_statistics_saver_builder__base, __alloc_memory, (name_len + 2) * sizeof(char));
+    s->__full_statistics = s_call(StatisticsSaverBuilder, __alloc_memory, s->__full_statistics,
+                                  (name_len + 2) * sizeof(char))    ;
 
 
-    if (s->base_statistics_saver_builder__base.i_statistics_saver_builder.__full_statistics == NULL) {
+    if (s->__full_statistics == NULL) {
         return NULL;
     }
 
-    s_call(&s->base_statistics_saver_builder__base, __append, name);
-    s_call(&s->base_statistics_saver_builder__base, __append, "\n");
+    s_call(StatisticsSaverBuilder, __append, s->__full_statistics, name);
+    s_call(StatisticsSaverBuilder, __append, s->__full_statistics, "\n");
 
     return self;
 }
@@ -31,13 +34,13 @@ i_statistics_saver_builder *with_header__ro(void *self, const char *header_name)
              "+=========================+\n",
              header_name);
 
-    s_call(&s->base_statistics_saver_builder__base, __alloc_memory, (strlen(header) + 1) * sizeof(char));
+    s_call(StatisticsSaverBuilder, __alloc_memory, s->__full_statistics, (strlen(header) + 1) * sizeof(char));
 
-    if (s->base_statistics_saver_builder__base.i_statistics_saver_builder.__full_statistics == NULL) {
+    if (s->__full_statistics == NULL) {
         return NULL;
     }
 
-    s_call(&s->base_statistics_saver_builder__base, __append, header);
+    s_call(StatisticsSaverBuilder, __append, s->__full_statistics, header);
     return self;
 }
 
@@ -46,13 +49,14 @@ i_statistics_saver_builder *with_houses_count__ro(void *self, const int created_
     char count_str[64];
     snprintf(count_str, sizeof(count_str), "Nr. de case create: %d\n", created_houses_count);
 
-    s_call(&s->base_statistics_saver_builder__base, __alloc_memory, (strlen(count_str) + 1) * sizeof(char));
+    s->__full_statistics = s_call(StatisticsSaverBuilder, __alloc_memory, s->__full_statistics,
+                                  (strlen(count_str) + 1) * sizeof(char))    ;
 
-    if (s->base_statistics_saver_builder__base.i_statistics_saver_builder.__full_statistics == NULL) {
+    if (s->__full_statistics == NULL) {
         return NULL;
     }
 
-    s_call(&s->base_statistics_saver_builder__base, __append, count_str);
+    s_call(StatisticsSaverBuilder, __append, s->__full_statistics, count_str);
 
     return self;
 }
@@ -62,13 +66,13 @@ i_statistics_saver_builder *with_company_name__ro(void *self, const char *compan
     char company_str[256];
     snprintf(company_str, sizeof(company_str), "Compania: %s\n", company_name);
 
-    s_call(&s->base_statistics_saver_builder__base, __alloc_memory, (strlen(company_str) + 1) * sizeof(char));
-    
-    if (s->base_statistics_saver_builder__base.i_statistics_saver_builder.__full_statistics == NULL) {
+    s_call(StatisticsSaverBuilder, __alloc_memory, s->__full_statistics, (strlen(company_str) + 1) * sizeof(char));
+
+    if (s->__full_statistics == NULL) {
         return NULL;
     }
 
-    s_call(&s->base_statistics_saver_builder__base, __append, company_str);
+    s_call(StatisticsSaverBuilder, __append, s->__full_statistics, company_str);
     return self;
 }
 
@@ -77,21 +81,24 @@ i_statistics_saver_builder *with_current_time__ro(void *self, const time_t time)
     char time_str[64];
     const struct tm *tm_info = localtime(&time);
     strftime(time_str, sizeof(time_str), "Data executării: %Y-%m-%d %H:%M:%S\n", tm_info);
-    
-    s_call(&s->base_statistics_saver_builder__base, __alloc_memory, (strlen(time_str) + 1) * sizeof(char));
 
-    if (s->base_statistics_saver_builder__base.i_statistics_saver_builder.__full_statistics == NULL) {
+    s_call(StatisticsSaverBuilder, __alloc_memory, s->__full_statistics, (strlen(time_str) + 1) * sizeof(char));
+
+    if (s->__full_statistics == NULL) {
         return NULL;
     }
 
-    s_call(&s->base_statistics_saver_builder__base, __append, time_str);
+    s_call(StatisticsSaverBuilder, __append, s->__full_statistics, time_str);
 
     return self;
 }
 
 char *get__ro(void *self) {
-    const ro_statistics_saver_builder *s = self;
-    return s->base_statistics_saver_builder__base.i_statistics_saver_builder.__full_statistics;
+    ro_statistics_saver_builder *s = self;
+    char *statistics_to_return = strdup(s->__full_statistics);
+    s->__full_statistics = NULL;
+
+    return statistics_to_return;
 }
 
 
@@ -108,9 +115,7 @@ i_statistics_saver_builder__vtable v_table__ro = {
 ro_statistics_saver_builder *new__ro_full_statistics_builder() {
     ro_statistics_saver_builder *builder = malloc(sizeof(ro_statistics_saver_builder));
 
-    builder->base_statistics_saver_builder__base = *new(base_statistics_saver_builder);
-
-    builder->base_statistics_saver_builder__base.i_statistics_saver_builder.vtable = &v_table__ro;
+    builder->i_statistics_saver_builder.vtable = &v_table__ro;
 
     return builder;
 }

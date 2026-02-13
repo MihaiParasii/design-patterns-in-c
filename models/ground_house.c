@@ -4,8 +4,7 @@
 #include "statistics.h"
 
 void _update_statistics_for_new_ground_house(void) {
-    statistics *statistics = s_new(statistics);
-    statistics = s_call(statistics, get_instance);
+    statistics *statistics = Statistics.s_vtable->get_instance();
     call(statistics, increase_created_houses);
 }
 

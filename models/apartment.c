@@ -7,8 +7,7 @@
 #include "statistics.h"
 
 void _update_statistics_for_new_apartment(void) {
-    statistics *statistics = s_new(statistics);
-    statistics = s_call(statistics, get_instance);
+    statistics *statistics = s_call(Statistics, get_instance);
     call(statistics, increase_created_houses);
 }
 

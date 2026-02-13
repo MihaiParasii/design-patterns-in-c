@@ -14,6 +14,7 @@
 #include "models/ground_house.h"
 #include "adapter/external_flat_provider.h"
 #include "adapter/external_flat_json_adapter.h"
+#include "models/statistics.h"
 
 void abstract_factory();
 
@@ -27,13 +28,12 @@ void adapter();
 
 
 int main() {
-    adapter();
-    //    prototype();
+    // adapter();
+    prototype();
 
     // abstract_factory();
 
-    // statistics *statistics = s_new__statistics();
-    // statistics = s_call(statistics, get_instance);
+    // statistics *statistics = Statistics.s_vtable->get_instance();
 
     // const int created_houses_count = call(statistics, get_created_houses_count);
     // builder_pattern(created_houses_count);
@@ -162,8 +162,7 @@ void adapter() {
     ground_house *gh1 = new(ground_house);
     ground_house *gh2 = new(ground_house, TRUE);
 
-    external_flat_provider *provider = s_new(external_flat_provider);
-    external_flat **flats = s_call(provider, get_flats);
+    external_flat **flats = s_call(ExternalFlatProvider, get_external_flats);
     external_flat_json_adapter *adapter = new(external_flat_json_adapter, flats[0]);
 
 

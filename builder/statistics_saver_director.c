@@ -21,7 +21,7 @@ void construct_long__director(void *self, const int constructed_houses_count) {
 
     director->__builder->vtable->with_name(director->__builder, "Test name")
             ->vtable->with_header(director->__builder, "Fancy header")
-            ->vtable->with_company_name(director->__builder, "OOO Naebalovo")
+            ->vtable->with_company_name(director->__builder, "OOO Kantora")
             ->vtable->with_houses_count(director->__builder, constructed_houses_count)
             ->vtable->with_current_time(director->__builder, current_time);
 }

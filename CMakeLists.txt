@@ -32,8 +32,6 @@ add_executable(Lab2 main.c
         builder/statistics_saver_director.h
         defines.h
         common/i_prototype.h
-        builder/base_statistics_saver_builder.c
-        builder/base_statistics_saver_builder.h
         trash.c
         models/base_house.c
         common/i_as_json.h
@@ -42,4 +40,6 @@ add_executable(Lab2 main.c
         adapter/external_flat.h
         adapter/external_flat_provider.c
         adapter/external_flat_provider.h
+        builder/static_statistics_saver_builder.c
+        builder/static_statistics_saver_builder.h
 )

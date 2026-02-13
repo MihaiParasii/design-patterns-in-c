@@ -5,7 +5,7 @@
 
 
 const house_creator__vtable apartment_creator__vtable = {
-    .construct_house = (base_house *(*)()) new__apartment0,
+    .construct_house = (base_house *(*)(void *)) new__apartment0,
     .print_a_new_house = print_a_new_house
 };
 

@@ -3,6 +3,7 @@
 #include "../defines.h"
 
 typedef struct statistics statistics;
+typedef struct s_statistics s_statistics;
 
 vtable_(statistics) {
     method_(void, print_created_houses_count);
@@ -12,17 +13,20 @@ vtable_(statistics) {
     method_(void, increase_created_houses);
 };
 
-s_vtable_(statistics) {
-    method_(statistics*, get_instance);
+s_vtable_(s_statistics) {
+    static_method_(statistics *, get_instance);
 };
 
 class_(statistics) {
     statistics__vtable *vtable;
-    statistics__s_vtable *s_vtable;
-    statistics *__self;
     int __created_houses_count;
 };
 
-statistics *s_new__statistics();
+static_class_(statistics) {
+    s_statistics__s_vtable *s_vtable;
+};
+
+extern const s_statistics Statistics;
+
 
 #endif //STATISTICS_H
