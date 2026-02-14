@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 int _get_rooms_count__block_of_apartment_buildings(void *self) {
-    const block_of_apartment_buildings *s = self;
+    const block_of_apartment_buildings *s = container_of(self, block_of_apartment_buildings, i_house_component);
     const int rooms_for_cleaning = 3;
     int total_rooms = 0;
 
@@ -17,7 +17,7 @@ int _get_rooms_count__block_of_apartment_buildings(void *self) {
 }
 
 double _get_area__block_of_apartment_buildings(void *self) {
-    const block_of_apartment_buildings *s = self;
+    const block_of_apartment_buildings *s = container_of(self, block_of_apartment_buildings, i_house_component);
     const double median_of_room_surface = 12.5;
     const int rooms_for_cleaning = 3;
     const double area_of_cleaning_rooms = rooms_for_cleaning * median_of_room_surface;
