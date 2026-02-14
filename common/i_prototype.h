@@ -2,7 +2,7 @@
 #define PROTOTYPE_H
 #include "../defines.h"
 
-vtable_(i_prototype) {
+vtable_for(i_prototype) {
     method_(void*, clone);
 };
 

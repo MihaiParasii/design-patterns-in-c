@@ -3,7 +3,7 @@
 #include "../models/base_house.h"
 #include "../defines.h"
 
-vtable_(house_creator) {
+vtable_for(house_creator) {
     method_(base_house*, construct_house);
 
     method_(void, print_a_new_house);

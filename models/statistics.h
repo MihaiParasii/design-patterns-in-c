@@ -5,7 +5,7 @@
 typedef struct statistics statistics;
 typedef struct s_statistics s_statistics;
 
-vtable_(statistics) {
+vtable_for(statistics) {
     method_(void, print_created_houses_count);
 
     method_(int, get_created_houses_count);

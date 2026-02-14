@@ -4,7 +4,7 @@
 #include "../abstract_factory_method/house_creator.h"
 #include "../defines.h"
 
-vtable_(site_999) {
+vtable_for(site_999) {
     method_(void, print_houses);
 
     method_(void, add_house, const house_creator *creator);

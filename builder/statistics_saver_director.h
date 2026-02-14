@@ -3,7 +3,7 @@
 #include "i_statistics_saver_builder.h"
 #include "../defines.h"
 
-vtable_(statistics_saver_director) {
+vtable_for(statistics_saver_director) {
     method_(void, construct_short, int constructed_houses_count);
 
     method_(void, construct_long, int constructed_houses_count);

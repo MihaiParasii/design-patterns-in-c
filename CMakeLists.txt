@@ -42,4 +42,11 @@ add_executable(Lab2 main.c
         adapter/external_flat_provider.h
         builder/static_statistics_saver_builder.c
         builder/static_statistics_saver_builder.h
+        common/i_house_component.h
+        models/apartment_building.c
+        models/apartment_building.h
+        common/dynamic_array_house_component.c
+        common/dynamic_array_house_component.h
+        models/block_of_apartment_buildings.c
+        models/block_of_apartment_buildings.h
 )

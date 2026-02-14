@@ -2,7 +2,7 @@
 #define I_AS_JSON_H
 #include "../defines.h"
 
-vtable_(i_as_json) {
+vtable_for(i_as_json) {
     method_(char *, to_json);
 };
 

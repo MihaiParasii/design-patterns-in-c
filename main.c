@@ -14,6 +14,8 @@
 #include "models/ground_house.h"
 #include "adapter/external_flat_provider.h"
 #include "adapter/external_flat_json_adapter.h"
+#include "models/apartment_building.h"
+#include "models/block_of_apartment_buildings.h"
 #include "models/statistics.h"
 
 void abstract_factory();
@@ -26,10 +28,13 @@ void prototype();
 
 void adapter();
 
+void composite();
+
 
 int main() {
     // adapter();
-    prototype();
+    // prototype();
+    composite();
 
     // abstract_factory();
 
@@ -141,7 +146,10 @@ void prototype() {
     ground_house *gh2 = new(ground_house, FALSE);
     ground_house *gh3 = new(ground_house, 3, TRUE);
 
-    base_house *template_houses[6] = {a1, a2, a3, gh1, gh2, gh3};
+    base_house *template_houses[6] = {
+        &a1->base_house__base, &a2->base_house__base, &a3->base_house__base, &gh1->base_house__base,
+        &gh2->base_house__base, &gh3->base_house__base
+    };
     base_house *cloned_houses[6];
 
     for (int i = 0; i < 6; ++i) {
@@ -178,4 +186,44 @@ void adapter() {
     for (int i = 0; i < 5; ++i) {
         printf("json: %s\n", call(json_data[i], to_json));
     }
+}
+
+
+void composite() {
+    ground_house *gh = new(ground_house, 10, FALSE);
+
+    int rooms_count = call(&gh->base_house__base.i_house_component, get_rooms_count);
+    double total_area = call(&gh->base_house__base.i_house_component, get_area);
+
+    printf("1 ground house:: -> %d rooms \t||\t %f m2.\n", rooms_count, total_area);
+
+    apartment_building *ab = new(apartment_building);
+    call(ab, add_child, &new(apartment, 10, 13)->base_house__base.i_house_component);
+    call(ab, add_child, &new(apartment, 11, 13)->base_house__base.i_house_component);
+    call(ab, add_child, &new(apartment, 12, 13)->base_house__base.i_house_component);
+
+    apartment_building *ab2 = new(apartment_building);
+    call(ab2, add_child, &new(apartment, 4, 13)->base_house__base.i_house_component);
+    call(ab2, add_child, &new(apartment, 3, 12)->base_house__base.i_house_component);
+    call(ab2, add_child, &ab->i_house_component);
+
+
+    apartment_building *ab3 = new(apartment_building);
+    call(ab3, add_child, &new(apartment, 2, 13)->base_house__base.i_house_component);
+    call(ab3, add_child, &new(apartment, 1, 12)->base_house__base.i_house_component);
+    call(ab3, add_child, &ab2->i_house_component);
+
+    block_of_apartment_buildings *block = new(block_of_apartment_buildings);
+    call(block, add_child, &new(apartment, 1, 12)->base_house__base.i_house_component);
+    call(block, add_child, &new(ground_house, 7, TRUE)->base_house__base.i_house_component);
+    call(block, add_child, &ab3->i_house_component);
+
+
+    rooms_count = call(&ab3->i_house_component, get_rooms_count);
+    total_area = call(&ab3->i_house_component, get_area);
+    printf("1 block with apartments buildings:: -> %d rooms \t||\t %f m2.\n", rooms_count, total_area);
+
+    rooms_count = call(&block->i_house_component, get_rooms_count);
+    total_area = call(&block->i_house_component, get_area);
+    printf("1 block with apartments buildings:: -> %d rooms \t||\t %f m2.\n", rooms_count, total_area);
 }

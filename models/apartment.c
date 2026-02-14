@@ -6,6 +6,24 @@
 
 #include "statistics.h"
 
+// int _get_rooms_count__apartment(void *self) {
+//     apartment *s = self;
+//
+//     return s->base_house__base.number_of_rooms;
+// }
+//
+// double _get_area__apartment(void *self) {
+//     apartment *s = self;
+//     const double median_of_room_surface = 12.5;
+//
+//     return s->base_house__base.number_of_rooms * median_of_room_surface;
+// }
+//
+// i_house_component__vtable house_component_vtable__apartment = {
+//     .get_rooms_count = _get_rooms_count__apartment,
+//     .get_area = _get_area__apartment
+// };
+
 void _update_statistics_for_new_apartment(void) {
     statistics *statistics = s_call(Statistics, get_instance);
     call(statistics, increase_created_houses);

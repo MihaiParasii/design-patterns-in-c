@@ -5,7 +5,7 @@
 
 typedef struct i_statistics_saver_builder i_statistics_saver_builder;
 
-vtable_(i_statistics_saver_builder) {
+vtable_for(i_statistics_saver_builder) {
     method_(i_statistics_saver_builder *, with_name, const char *name);
 
     method_(i_statistics_saver_builder *, with_header, const char *header_name);

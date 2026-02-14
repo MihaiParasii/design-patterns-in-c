@@ -3,15 +3,17 @@
 #include "../defines.h"
 #include "../common/i_prototype.h"
 #include "../common/i_as_json.h"
+#include "../common/i_house_component.h"
 
 
-vtable_(base_house) {
+vtable_for(base_house) {
     method_(void, print_myself);
 };
 
 class_(base_house) {
     implements_(i_prototype);
     implements_(i_as_json);
+    implements_(i_house_component);
     base_house__vtable *vtable;
     int number_of_rooms;
 };

@@ -5,7 +5,7 @@
 #include "../models/base_house.h"
 #include "../defines.h"
 
-vtable_(dynamic_array) {
+vtable_for(dynamic_array) {
     method_(void, add_back, base_house* object);
 
     method_(void, remove_back);
