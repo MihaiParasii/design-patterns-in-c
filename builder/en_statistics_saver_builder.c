@@ -122,7 +122,7 @@ i_statistics_saver_builder__vtable v_table__en = {
 en_statistics_saver_builder *new__en_full_statistics_builder() {
     en_statistics_saver_builder *builder = malloc(sizeof(en_statistics_saver_builder));
 
-    builder->i_statistics_saver_builder.vtable = &v_table__en;
+    builder->i_statistics_saver_builder__iface.vtable = &v_table__en;
 
     return builder;
 }

@@ -115,7 +115,7 @@ i_statistics_saver_builder__vtable v_table__ro = {
 ro_statistics_saver_builder *new__ro_full_statistics_builder() {
     ro_statistics_saver_builder *builder = malloc(sizeof(ro_statistics_saver_builder));
 
-    builder->i_statistics_saver_builder.vtable = &v_table__ro;
+    builder->i_statistics_saver_builder__iface.vtable = &v_table__ro;
 
     return builder;
 }

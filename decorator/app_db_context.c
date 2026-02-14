@@ -33,7 +33,7 @@ void add_apartment__app_db_context(void *self, apartment *apartment) {
     app_db_context *s = self;
     s->__count_modified++;
 
-    char *json = call(&apartment->base_house__base.i_as_json, to_json);
+    char *json = call(&apartment->base_house__base.i_as_json__iface, to_json);
 
     s->__in_memory_saving = realloc(s->__in_memory_saving, sizeof(char) * (strlen(json) + 1));
     strcat(s->__in_memory_saving, json);

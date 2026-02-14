@@ -25,7 +25,7 @@
 #define vtable_for(class_name) typedef struct class_name##__vtable class_name##__vtable; struct class_name##__vtable
 #define s_vtable_(class_name) typedef struct class_name##__s_vtable class_name##__s_vtable; struct class_name##__s_vtable
 #define extends_(base_type) base_type base_type##__base
-#define implements_(interface) interface interface
+#define implements_(interface) interface interface##__iface
 #define method_(return_type, method_name, ...) return_type (*method_name)(void *self, ##__VA_ARGS__)
 #define static_method_(return_type, method_name, ...) return_type (*method_name)(__VA_ARGS__)
 

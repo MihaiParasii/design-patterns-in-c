@@ -120,7 +120,7 @@ i_statistics_saver_builder__vtable v_table__ru = {
 ru_statistics_saver_builder *new__ru_full_statistics_builder() {
     ru_statistics_saver_builder *builder = malloc(sizeof(ru_statistics_saver_builder));
 
-    builder->i_statistics_saver_builder.vtable = &v_table__ru;
+    builder->i_statistics_saver_builder__iface.vtable = &v_table__ru;
 
     return builder;
 }

@@ -5,8 +5,7 @@
 
 
 class_(apartment_repository_logger_decorator) {
-    // TODO: fix the implements macros. To add a suffix to not be conflicts when add a new property of same type.
-    i_apartment_repository i_apartment_repository_;
+    implements_(i_apartment_repository);
     
     i_apartment_repository *__wrappee;
 };

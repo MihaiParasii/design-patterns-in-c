@@ -22,7 +22,7 @@ i_as_json__vtable external_flat_as_json_v_table = {
 external_flat_json_adapter *new__external_flat_json_adapter1_external_flat(external_flat *ef) {
     external_flat_json_adapter *adapter = malloc(sizeof(external_flat_json_adapter));
 
-    adapter->i_as_json.vtable = &external_flat_as_json_v_table;
+    adapter->i_as_json__iface.vtable = &external_flat_as_json_v_table;
     adapter->_flat = ef;
 
     return adapter;

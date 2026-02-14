@@ -24,7 +24,7 @@ i_apartment_repository__vtable apartment_repository_vtable = {
 apartment_repository *new__apartment_repository(app_db_context *db_context) {
     apartment_repository *repo = malloc(sizeof(apartment_repository));
     repo->__db_context = db_context;
-    repo->i_apartment_repository.vtable = &apartment_repository_vtable;
+    repo->i_apartment_repository__iface.vtable = &apartment_repository_vtable;
 
     return repo;
 }

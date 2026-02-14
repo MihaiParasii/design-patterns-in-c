@@ -29,7 +29,7 @@ void *ground_house_clone(void *self) {
 }
 
 char *ground_house_to_json(void *self) {
-    ground_house *gh = container_of(container_of(self, base_house, i_as_json), ground_house, base_house__base);
+    ground_house *gh = container_of(container_of(self, base_house, i_as_json__iface), ground_house, base_house__base);
     char *json = malloc(256 * sizeof(char));
     sprintf(json, "{ \"number_of_rooms\": %d, \"has_fantana\": %s }",
             gh->base_house__base.number_of_rooms,
@@ -56,8 +56,8 @@ void _init_v_tables_gh(ground_house *a) {
     }
 
     a->base_house__base.vtable = &ground_house_v_table;
-    a->base_house__base.i_prototype.vtable = &ground_house_prototype_v_table;
-    a->base_house__base.i_as_json.vtable = &ground_house_as_json_v_table;
+    a->base_house__base.i_prototype__iface.vtable = &ground_house_prototype_v_table;
+    a->base_house__base.i_as_json__iface.vtable = &ground_house_as_json_v_table;
 }
 
 

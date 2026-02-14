@@ -162,7 +162,7 @@ void prototype() {
     base_house *cloned_houses[6];
 
     for (int i = 0; i < 6; ++i) {
-        cloned_houses[i] = (base_house *) call(&template_houses[i]->i_prototype, clone);
+        cloned_houses[i] = (base_house *) call(&template_houses[i]->i_prototype__iface, clone);
     }
 
     for (int i = 0; i < 6; ++i) {
@@ -184,11 +184,11 @@ void adapter() {
 
 
     i_as_json *json_data[5] = {
-        &a1->base_house__base.i_as_json,
-        &a2->base_house__base.i_as_json,
-        &gh1->base_house__base.i_as_json,
-        &gh2->base_house__base.i_as_json,
-        &adapter->i_as_json
+        &a1->base_house__base.i_as_json__iface,
+        &a2->base_house__base.i_as_json__iface,
+        &gh1->base_house__base.i_as_json__iface,
+        &gh2->base_house__base.i_as_json__iface,
+        &adapter->i_as_json__iface
     };
 
     // client code
@@ -201,46 +201,46 @@ void adapter() {
 void composite() {
     ground_house *gh = new(ground_house, 10, FALSE);
 
-    int rooms_count = call(&gh->base_house__base.i_house_component, get_rooms_count);
-    double total_area = call(&gh->base_house__base.i_house_component, get_area);
+    int rooms_count = call(&gh->base_house__base.i_house_component__iface, get_rooms_count);
+    double total_area = call(&gh->base_house__base.i_house_component__iface, get_area);
 
     printf("1 ground house:: -> %d rooms \t||\t %f m2.\n", rooms_count, total_area);
 
     apartment_building *ab = new(apartment_building);
-    call(ab, add_child, &new(apartment, 10, 13)->base_house__base.i_house_component);
-    call(ab, add_child, &new(apartment, 11, 13)->base_house__base.i_house_component);
-    call(ab, add_child, &new(apartment, 12, 13)->base_house__base.i_house_component);
+    call(ab, add_child, &new(apartment, 10, 13)->base_house__base.i_house_component__iface);
+    call(ab, add_child, &new(apartment, 11, 13)->base_house__base.i_house_component__iface);
+    call(ab, add_child, &new(apartment, 12, 13)->base_house__base.i_house_component__iface);
 
     apartment_building *ab2 = new(apartment_building);
-    call(ab2, add_child, &new(apartment, 4, 13)->base_house__base.i_house_component);
-    call(ab2, add_child, &new(apartment, 3, 12)->base_house__base.i_house_component);
-    call(ab2, add_child, &ab->i_house_component);
+    call(ab2, add_child, &new(apartment, 4, 13)->base_house__base.i_house_component__iface);
+    call(ab2, add_child, &new(apartment, 3, 12)->base_house__base.i_house_component__iface);
+    call(ab2, add_child, &ab->i_house_component__iface);
 
 
     apartment_building *ab3 = new(apartment_building);
-    call(ab3, add_child, &new(apartment, 2, 13)->base_house__base.i_house_component);
-    call(ab3, add_child, &new(apartment, 1, 12)->base_house__base.i_house_component);
-    call(ab3, add_child, &ab2->i_house_component);
+    call(ab3, add_child, &new(apartment, 2, 13)->base_house__base.i_house_component__iface);
+    call(ab3, add_child, &new(apartment, 1, 12)->base_house__base.i_house_component__iface);
+    call(ab3, add_child, &ab2->i_house_component__iface);
 
     block_of_apartment_buildings *block = new(block_of_apartment_buildings);
-    call(block, add_child, &new(apartment, 1, 12)->base_house__base.i_house_component);
-    call(block, add_child, &new(ground_house, 7, TRUE)->base_house__base.i_house_component);
-    call(block, add_child, &ab3->i_house_component);
+    call(block, add_child, &new(apartment, 1, 12)->base_house__base.i_house_component__iface);
+    call(block, add_child, &new(ground_house, 7, TRUE)->base_house__base.i_house_component__iface);
+    call(block, add_child, &ab3->i_house_component__iface);
 
 
-    rooms_count = call(&ab3->i_house_component, get_rooms_count);
-    total_area = call(&ab3->i_house_component, get_area);
+    rooms_count = call(&ab3->i_house_component__iface, get_rooms_count);
+    total_area = call(&ab3->i_house_component__iface, get_area);
     printf("1 block with apartments buildings:: -> %d rooms \t||\t %f m2.\n", rooms_count, total_area);
 
-    rooms_count = call(&block->i_house_component, get_rooms_count);
-    total_area = call(&block->i_house_component, get_area);
+    rooms_count = call(&block->i_house_component__iface, get_rooms_count);
+    total_area = call(&block->i_house_component__iface, get_area);
     printf("1 block with apartments buildings:: -> %d rooms \t||\t %f m2.\n", rooms_count, total_area);
 }
 
 
 void facade() {
     // client code simulate that user want to buy a apartment
-    i_house_operations_facade *facade = &new(house_operations_facade)->i_house_operations_facade;
+    i_house_operations_facade *facade = &new(house_operations_facade)->i_house_operations_facade__iface;
     call(facade, buy_apartment, 1, 12);
 }
 
@@ -250,12 +250,12 @@ void decorator() {
 
     apartment_repository *ar = new(apartment_repository, new(app_db_context));
 
-    call(&ar->i_apartment_repository, add_apartment, a1);
-    dynamic_array *result = call(&ar->i_apartment_repository, get_apartments);
+    call(&ar->i_apartment_repository__iface, add_apartment, a1);
+    dynamic_array *result = call(&ar->i_apartment_repository__iface, get_apartments);
     printf("Number of apartments: %lu\n", result->size);
 
-    apartment_repository_logger_decorator *ar_decorator = new(apartment_repository_logger_decorator, &ar->i_apartment_repository);
-    result = call(&ar_decorator->i_apartment_repository_, get_apartments);
+    apartment_repository_logger_decorator *ar_decorator = new(apartment_repository_logger_decorator, &ar->i_apartment_repository__iface);
+    result = call(&ar_decorator->i_apartment_repository__iface, get_apartments);
     
     printf("Number of apartments: %lu\n", result->size);
 

@@ -42,7 +42,7 @@ void *apartment_clone(void *self) {
 }
 
 char *apartment_to_json(void *self) {
-    apartment *a = container_of(container_of(self, base_house, i_as_json), apartment, base_house__base);
+    apartment *a = container_of(container_of(self, base_house, i_as_json__iface), apartment, base_house__base);
     
     char *json = malloc(100);
     sprintf(json, "{ \"number_of_rooms\": %d, \"floor\": %d }",
@@ -70,8 +70,8 @@ void _init_v_tables_a(apartment *a) {
     }
 
     a->base_house__base.vtable = &apartment_v_table;
-    a->base_house__base.i_prototype.vtable = &apartment_prototype_v_table;
-    a->base_house__base.i_as_json.vtable = &apartment_as_json_v_table;
+    a->base_house__base.i_prototype__iface.vtable = &apartment_prototype_v_table;
+    a->base_house__base.i_as_json__iface.vtable = &apartment_as_json_v_table;
 }
 
 apartment *new__apartment0(void) {

@@ -32,7 +32,7 @@ apartment_repository_logger_decorator *new__apartment_repository_logger_decorato
     apartment_repository_logger_decorator *decorator = malloc(sizeof(apartment_repository_logger_decorator));
 
     decorator->__wrappee = apartment_repository;
-    decorator->i_apartment_repository_.vtable = &apartment_repository_logger_decorator__vtable;
+    decorator->i_apartment_repository__iface.vtable = &apartment_repository_logger_decorator__vtable;
 
     return decorator;
 }

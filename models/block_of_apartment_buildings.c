@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 int _get_rooms_count__block_of_apartment_buildings(void *self) {
-    const block_of_apartment_buildings *s = container_of(self, block_of_apartment_buildings, i_house_component);
+    const block_of_apartment_buildings *s = container_of(self, block_of_apartment_buildings, i_house_component__iface);
     const int rooms_for_cleaning = 3;
     int total_rooms = 0;
 
@@ -17,7 +17,7 @@ int _get_rooms_count__block_of_apartment_buildings(void *self) {
 }
 
 double _get_area__block_of_apartment_buildings(void *self) {
-    const block_of_apartment_buildings *s = container_of(self, block_of_apartment_buildings, i_house_component);
+    const block_of_apartment_buildings *s = container_of(self, block_of_apartment_buildings, i_house_component__iface);
     const double median_of_room_surface = 12.5;
     const int rooms_for_cleaning = 3;
     const double area_of_cleaning_rooms = rooms_for_cleaning * median_of_room_surface;
@@ -51,7 +51,7 @@ block_of_apartment_buildings__vtable block_of_apartment_building_vtable = {
 block_of_apartment_buildings *new__block_of_apartment_buildings() {
     block_of_apartment_buildings *ab = malloc(sizeof(block_of_apartment_buildings));
 
-    ab->i_house_component.vtable = &house_component_vtable__block_of_apartment_building;
+    ab->i_house_component__iface.vtable = &house_component_vtable__block_of_apartment_building;
     ab->vtable = &block_of_apartment_building_vtable;
     ab->children = new(dynamic_array_house_component, 10);
 

@@ -4,7 +4,7 @@
 
 
 int _get_rooms_count__apartment_building(void *self) {
-    const apartment_building *s = container_of(self, apartment_building, i_house_component);
+    const apartment_building *s = container_of(self, apartment_building, i_house_component__iface);
     const int rooms_for_cleaning = 3;
     int total_rooms = 0;
 
@@ -18,7 +18,7 @@ int _get_rooms_count__apartment_building(void *self) {
 }
 
 double _get_area__apartment_building(void *self) {
-    const apartment_building *s = container_of(self, apartment_building, i_house_component);
+    const apartment_building *s = container_of(self, apartment_building, i_house_component__iface);
     const double median_of_room_surface = 12.5;
     const int rooms_for_cleaning = 3;
     const double area_of_cleaning_rooms = rooms_for_cleaning * median_of_room_surface;
@@ -53,7 +53,7 @@ apartment_building *new__apartment_building() {
     apartment_building *ab = malloc(sizeof(apartment_building));
 
     ab->children = new(dynamic_array_house_component, 10);
-    ab->i_house_component.vtable = &house_component_vtable__apartment_building;
+    ab->i_house_component__iface.vtable = &house_component_vtable__apartment_building;
     ab->vtable = &apartment_building_vtable;
 
     return ab;
