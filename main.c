@@ -14,6 +14,8 @@
 #include "models/ground_house.h"
 #include "adapter/external_flat_provider.h"
 #include "adapter/external_flat_json_adapter.h"
+#include "facade/house_operations_facade.h"
+#include "facade/i_house_operations_facade.h"
 #include "models/apartment_building.h"
 #include "models/block_of_apartment_buildings.h"
 #include "models/statistics.h"
@@ -29,6 +31,8 @@ void prototype();
 void adapter();
 
 void composite();
+
+void facade();
 
 
 int main() {
@@ -226,4 +230,11 @@ void composite() {
     rooms_count = call(&block->i_house_component, get_rooms_count);
     total_area = call(&block->i_house_component, get_area);
     printf("1 block with apartments buildings:: -> %d rooms \t||\t %f m2.\n", rooms_count, total_area);
+}
+
+
+void facade() {
+    // client code simulate that user want to buy a apartment
+    i_house_operations_facade *facade = &new(house_operations_facade)->i_house_operations_facade;
+    call(facade, buy_apartment, 1, 12);
 }

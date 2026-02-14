@@ -49,4 +49,7 @@ add_executable(Lab2 main.c
         common/dynamic_array_house_component.h
         models/block_of_apartment_buildings.c
         models/block_of_apartment_buildings.h
+        facade/i_house_operations_facade.h
+        facade/house_operations_facade.c
+        facade/house_operations_facade.h
 )
