@@ -14,6 +14,8 @@
 #include "models/ground_house.h"
 #include "adapter/external_flat_provider.h"
 #include "adapter/external_flat_json_adapter.h"
+#include "decorator/apartment_repository.h"
+#include "decorator/apartment_repository_logger_decorator.h"
 #include "facade/house_operations_facade.h"
 #include "facade/i_house_operations_facade.h"
 #include "models/apartment_building.h"
@@ -34,11 +36,14 @@ void composite();
 
 void facade();
 
+void decorator();
+
 
 int main() {
     // adapter();
     // prototype();
-    composite();
+    // composite();
+    decorator();
 
     // abstract_factory();
 
@@ -237,4 +242,23 @@ void facade() {
     // client code simulate that user want to buy a apartment
     i_house_operations_facade *facade = &new(house_operations_facade)->i_house_operations_facade;
     call(facade, buy_apartment, 1, 12);
+}
+
+void decorator() {
+    apartment *a1 = new(apartment, 1, 12);
+    apartment *a2 = new(apartment, 2, 12);
+
+    apartment_repository *ar = new(apartment_repository, new(app_db_context));
+
+    call(&ar->i_apartment_repository, add_apartment, a1);
+    dynamic_array *result = call(&ar->i_apartment_repository, get_apartments);
+    printf("Number of apartments: %lu\n", result->size);
+
+    apartment_repository_logger_decorator *ar_decorator = new(apartment_repository_logger_decorator, &ar->i_apartment_repository);
+    result = call(&ar_decorator->i_apartment_repository_, get_apartments);
+    
+    printf("Number of apartments: %lu\n", result->size);
+
+
+    // apartment_repository_logger_decorator *logger = new(apartment_repository_logger_decorator, ar);
 }

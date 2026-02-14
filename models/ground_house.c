@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "ground_house.h"
+
+#include <string.h>
+
 #include "statistics.h"
 
 void _update_statistics_for_new_ground_house(void) {
@@ -26,7 +29,7 @@ void *ground_house_clone(void *self) {
 }
 
 char *ground_house_to_json(void *self) {
-    ground_house *gh = self;
+    ground_house *gh = container_of(container_of(self, base_house, i_as_json), ground_house, base_house__base);
     char *json = malloc(256 * sizeof(char));
     sprintf(json, "{ \"number_of_rooms\": %d, \"has_fantana\": %s }",
             gh->base_house__base.number_of_rooms,
@@ -109,4 +112,18 @@ ground_house *new__ground_house1_ground_house(ground_house *gh) {
     _update_statistics_for_new_ground_house();
 
     return new_gh;
+}
+
+
+ground_house *new__ground_house1_json(char *json) {
+    ground_house *gh = new(ground_house);
+    char has_fantana_buffer[5];
+    sscanf(json, "{ \"number_of_rooms\": %d, \"has_fantana\": %s }",
+           &gh->base_house__base.number_of_rooms,
+           has_fantana_buffer);
+
+    gh->has_fantana = strcmp(has_fantana_buffer, "true") == 0;
+
+
+    return gh;
 }

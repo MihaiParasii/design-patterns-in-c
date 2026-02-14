@@ -52,4 +52,11 @@ add_executable(Lab2 main.c
         facade/i_house_operations_facade.h
         facade/house_operations_facade.c
         facade/house_operations_facade.h
+        decorator/i_apartment_repository.h
+        decorator/apartment_repository.c
+        decorator/apartment_repository.h
+        decorator/app_db_context.c
+        decorator/app_db_context.h
+        decorator/apartment_repository_logger_decorator.c
+        decorator/apartment_repository_logger_decorator.h
 )

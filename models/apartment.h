@@ -17,11 +17,14 @@ apartment *new__apartment2_int_int(int number_of_rooms, int floor);
 
 apartment *new__apartment1_apartment(apartment *a);
 
+apartment *new__apartment1_json(char *json);
+
 
 #define new__apartment1(x) \
     _Generic((x), \
     int:       new__apartment1_int, \
-    apartment*: new__apartment1_apartment \
+    apartment*: new__apartment1_apartment, \
+    char *: new__apartment1_json \
 )(x)
 
 #define dispatch_apartment_2_2(type, second_type) \

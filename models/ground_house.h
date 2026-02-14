@@ -19,10 +19,13 @@ ground_house *new__ground_house2_int_bool(int number_of_rooms, bool has_fantana)
 
 ground_house *new__ground_house1_ground_house(ground_house *gh);
 
+ground_house *new__ground_house1_json(char *json);
+
 #define new__ground_house1(x) \
     _Generic((x), \
     bool:           new__ground_house1_bool, \
-    ground_house*: new__ground_house1_ground_house \
+    ground_house*: new__ground_house1_ground_house, \
+    char *: new__ground_house1_json \
 )(x)
 
 #define dispatch_ground_house_2_2(type, second_type) \

@@ -42,7 +42,8 @@ void *apartment_clone(void *self) {
 }
 
 char *apartment_to_json(void *self) {
-    apartment *a = self;
+    apartment *a = container_of(container_of(self, base_house, i_as_json), apartment, base_house__base);
+    
     char *json = malloc(100);
     sprintf(json, "{ \"number_of_rooms\": %d, \"floor\": %d }",
             a->base_house__base.number_of_rooms,
@@ -125,4 +126,14 @@ apartment *new__apartment1_apartment(apartment *a) {
     _update_statistics_for_new_apartment();
 
     return new_a;
+}
+
+apartment *new__apartment1_json(char *json) {
+    apartment *a = new(apartment);
+
+    sscanf(json, "{ \"number_of_rooms\": %d, \"floor\": %d }",
+           &a->base_house__base.number_of_rooms,
+           &a->floor);
+
+    return a;
 }
