@@ -57,5 +57,5 @@ s_external_flat_provider__s_vtable s_vtable = {
 };
 
 s_external_flat_provider ExternalFlatProvider = {
-    .s_vtable = _get_flats
+    .s_vtable = &s_vtable
 };
