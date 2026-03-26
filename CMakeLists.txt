@@ -59,4 +59,25 @@ add_executable(Lab2 main.c
         decorator/app_db_context.h
         decorator/apartment_repository_logger_decorator.c
         decorator/apartment_repository_logger_decorator.h
+        proxy/proxy_base_class.c
+        proxy/proxy_base_class.h
+        proxy/i_proxy_example.h
+        proxy/real_proxy.c
+        proxy/real_proxy.h
+        bridge/abstraction.c
+        bridge/abstraction.h
+        bridge/i_abstraction_impl.h
+        bridge/macos_abstraction_impl.c
+        bridge/macos_abstraction_impl.h
+        bridge/concrete_abstraction.c
+        bridge/concrete_abstraction.h
+        bridge/windows_abstraction_impl.c
+        bridge/windows_abstraction_impl.h
+        strategy/i_strategy.h
+        strategy/concrete_strategy_1.c
+        strategy/concrete_strategy_1.h
+        strategy/concrete_strategy_2.c
+        strategy/concrete_strategy_2.h
+        strategy/strategy_context.c
+        strategy/strategy_context.h
 )

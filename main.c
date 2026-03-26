@@ -14,13 +14,21 @@
 #include "models/ground_house.h"
 #include "adapter/external_flat_provider.h"
 #include "adapter/external_flat_json_adapter.h"
+#include "bridge/concrete_abstraction.h"
+#include "bridge/macos_abstraction_impl.h"
+#include "bridge/windows_abstraction_impl.h"
 #include "decorator/apartment_repository.h"
 #include "decorator/apartment_repository_logger_decorator.h"
 #include "facade/house_operations_facade.h"
 #include "facade/i_house_operations_facade.h"
 #include "models/apartment_building.h"
 #include "models/block_of_apartment_buildings.h"
-#include "models/statistics.h"
+#include "proxy/i_proxy_example.h"
+#include "proxy/proxy_base_class.h"
+#include "proxy/real_proxy.h"
+#include "strategy/concrete_strategy_1.h"
+#include "strategy/concrete_strategy_2.h"
+#include "strategy/strategy_context.h"
 
 void abstract_factory();
 
@@ -38,12 +46,21 @@ void facade();
 
 void decorator();
 
+void proxy();
+
+void bridge();
+
+void strategy();
+
 
 int main() {
+    strategy();
+    // bridge();
+    // proxy();
     // adapter();
     // prototype();
     // composite();
-    decorator();
+    // decorator();
 
     // abstract_factory();
 
@@ -197,7 +214,6 @@ void adapter() {
     }
 }
 
-
 void composite() {
     ground_house *gh = new(ground_house, 10, FALSE);
 
@@ -237,7 +253,6 @@ void composite() {
     printf("1 block with apartments buildings:: -> %d rooms \t||\t %f m2.\n", rooms_count, total_area);
 }
 
-
 void facade() {
     // client code simulate that user want to buy a apartment
     i_house_operations_facade *facade = &new(house_operations_facade)->i_house_operations_facade__iface;
@@ -254,11 +269,48 @@ void decorator() {
     dynamic_array *result = call(&ar->i_apartment_repository__iface, get_apartments);
     printf("Number of apartments: %lu\n", result->size);
 
-    apartment_repository_logger_decorator *ar_decorator = new(apartment_repository_logger_decorator, &ar->i_apartment_repository__iface);
+    apartment_repository_logger_decorator *ar_decorator = new(apartment_repository_logger_decorator,
+                                                              &ar->i_apartment_repository__iface);
     result = call(&ar_decorator->i_apartment_repository__iface, get_apartments);
-    
+
     printf("Number of apartments: %lu\n", result->size);
 
 
     // apartment_repository_logger_decorator *logger = new(apartment_repository_logger_decorator, ar);
+}
+
+void proxy() {
+    proxy_base_class *base = new(proxy_base_class);
+
+    call(&base->i_proxy_example__iface, print_something);
+    printf("\n\n");
+
+    real_proxy *proxy = new__real_proxy(base);
+
+    call(&proxy->i_proxy_example__iface, print_something);
+}
+
+void bridge() {
+    macos_abstraction_impl *macos_impl = new(macos_abstraction_impl);
+    windows_abstraction_impl *windows_impl = new(windows_abstraction_impl);
+
+    printf("Bridge pattern:\n\n");
+    printf("MacOS implementation:\n");
+    concrete_abstraction *ca = new(concrete_abstraction, &macos_impl->i_abstraction_impl__iface);
+    call(&ca->abstraction__base, call_print_something_from_impl);
+
+    printf("\nWindows implementation:\n");
+    ca = new(concrete_abstraction, &windows_impl->i_abstraction_impl__iface);
+    call(&ca->abstraction__base, call_print_something_from_impl);
+}
+
+void strategy() {
+    concrete_strategy_1 *cs1 = new(concrete_strategy_1);
+    concrete_strategy_2 *cs2 = new(concrete_strategy_2);
+
+    strategy_context *sc = new(strategy_context, &cs1->i_strategy__iface);
+    call(sc, execute_strategy, 1, 2);
+    printf("\n\n");
+    sc = new(strategy_context, &cs2->i_strategy__iface);
+    call(sc, execute_strategy, 1, 2);
 }
