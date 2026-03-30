@@ -285,7 +285,7 @@ void proxy() {
     call(&base->i_proxy_example__iface, print_something);
     printf("\n\n");
 
-    real_proxy *proxy = new__real_proxy(base);
+    real_proxy *proxy = new(real_proxy, base);
 
     call(&proxy->i_proxy_example__iface, print_something);
 }
