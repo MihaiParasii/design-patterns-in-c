@@ -80,4 +80,14 @@ add_executable(Lab2 main.c
         strategy/concrete_strategy_2.h
         strategy/strategy_context.c
         strategy/strategy_context.h
+        common/flyweight_da.c
+        common/flyweight_da.h
+        flyweight/flyweight.c
+        flyweight/flyweight.h
+        flyweight/flyweight_context.c
+        flyweight/flyweight_context.h
+        flyweight/flyweight_factory.c
+        flyweight/flyweight_factory.h
+        flyweight/flyweight_extrinsic.c
+        flyweight/flyweight_extrinsic.h
 )

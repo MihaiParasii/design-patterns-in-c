@@ -21,6 +21,9 @@
 #include "decorator/apartment_repository_logger_decorator.h"
 #include "facade/house_operations_facade.h"
 #include "facade/i_house_operations_facade.h"
+#include "flyweight/flyweight_context.h"
+#include "flyweight/flyweight_extrinsic.h"
+#include "flyweight/flyweight_factory.h"
 #include "models/apartment_building.h"
 #include "models/block_of_apartment_buildings.h"
 #include "proxy/i_proxy_example.h"
@@ -50,11 +53,14 @@ void proxy();
 
 void bridge();
 
+void flyweight_show();
+
 void strategy();
 
 
 int main() {
-    strategy();
+    flyweight_show();
+    // strategy();
     // bridge();
     // proxy();
     // adapter();
@@ -291,10 +297,10 @@ void proxy() {
 }
 
 void bridge() {
+    printf("Bridge pattern:\n\n");
     macos_abstraction_impl *macos_impl = new(macos_abstraction_impl);
     windows_abstraction_impl *windows_impl = new(windows_abstraction_impl);
 
-    printf("Bridge pattern:\n\n");
     printf("MacOS implementation:\n");
     concrete_abstraction *ca = new(concrete_abstraction, &macos_impl->i_abstraction_impl__iface);
     call(&ca->abstraction__base, call_print_something_from_impl);
@@ -302,6 +308,28 @@ void bridge() {
     printf("\nWindows implementation:\n");
     ca = new(concrete_abstraction, &windows_impl->i_abstraction_impl__iface);
     call(&ca->abstraction__base, call_print_something_from_impl);
+}
+
+void flyweight_show() {
+    printf("Flyweight pattern:\n\n");
+
+    flyweight_factory *fc = new(flyweight_factory);
+    flyweight *hex_flyweight1 = call(fc, get_flyweight, 111111);
+    flyweight *hex_flyweight2 = call(fc, get_flyweight, 222222);
+    flyweight *hex_flyweight3 = call(fc, get_flyweight, 111111);
+
+    flyweight_extrinsic *fe1 = new(flyweight_extrinsic, 12, hex_flyweight1);
+    flyweight_extrinsic *fe2 = new(flyweight_extrinsic, 13, hex_flyweight2);
+    flyweight_extrinsic *fe3 = new(flyweight_extrinsic, 14, hex_flyweight3);
+    
+    call(fe1, print_info);
+    call(fe2, print_info);
+    call(fe3, print_info);
+    
+    
+    call(hex_flyweight1, print_color);
+    call(hex_flyweight2, print_color);
+    call(hex_flyweight3, print_color);
 }
 
 void strategy() {
