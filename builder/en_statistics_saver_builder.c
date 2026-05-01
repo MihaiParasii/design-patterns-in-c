@@ -9,7 +9,7 @@
 #include "i_statistics_saver_builder.h"
 #include "static_statistics_saver_builder.h"
 
-i_statistics_saver_builder *with_name__en(void *self, const char *name) {
+static i_statistics_saver_builder *with_name(void *self, const char *name) {
     en_statistics_saver_builder *s = self;
     const size_t name_len = strlen(name);
 
@@ -110,7 +110,7 @@ char *get__en(void *self) {
 
 
 i_statistics_saver_builder__vtable v_table__en = {
-    .with_name = with_name__en,
+    .with_name = with_name,
     .with_header = with_header__en,
     .with_company_name = with_company_name__en,
     .with_current_time = with_current_time__en,
