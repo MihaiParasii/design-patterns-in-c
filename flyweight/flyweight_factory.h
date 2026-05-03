@@ -13,6 +13,6 @@ class_(flyweight_factory) {
     flyweight_factory__vtable *vtable;
 };
 
-flyweight_factory *new__flyweight_factory();
+constructor(flyweight_factory);
 
 #endif //LAB2_FLYWEIGHT_FACTORY_H

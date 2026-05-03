@@ -1,5 +1,13 @@
 #include <stdlib.h>
 
+#include "observer/apartment_listing_subject.h"
+#include "observer/tenant_observer.h"
+#include "observer/real_estate_agent_observer.h"
+#include "command/apartment_booking_receiver.h"
+#include "command/apartment_command_invoker.h"
+#include "command/reserve_apartment_command.h"
+#include "command/cancel_reservation_command.h"
+#include "state/apartment_rental_context.h"
 #include "abstract_factory_method/apartment_creator.h"
 #include "abstract_factory_method/ground_house_creator.h"
 #include "common/dynamic_array.h"
@@ -57,9 +65,17 @@ void flyweight_show();
 
 void strategy();
 
+void observer();
+
+void command();
+
+void state();
+
 
 int main() {
-    flyweight_show();
+    // observer();
+    // command();
+    state();
     // strategy();
     // bridge();
     // proxy();
@@ -124,21 +140,21 @@ void builder_pattern(const int created_houses_count) {
     char *result;
 
     printf("--->>> Short versions <<<---\n");
-    builder = (i_statistics_saver_builder *) new(en_full_statistics_builder);
+    builder = (i_statistics_saver_builder *) new(en_statistics_saver_builder);
     director = new(statistics_saver_director, builder);
 
     call(director, construct_short, created_houses_count);
     result = call(builder, get);
     printf("%s\n\n", result);
 
-    builder = (i_statistics_saver_builder *) new(ro_full_statistics_builder);
+    builder = (i_statistics_saver_builder *) new(ro_statistics_saver_builder);
     director = new(statistics_saver_director, builder);
 
     call(director, construct_short, created_houses_count);
     result = call(builder, get);
     printf("%s\n\n", result);
 
-    builder = (i_statistics_saver_builder *) new(ru_full_statistics_builder);
+    builder = (i_statistics_saver_builder *) new(ru_statistics_saver_builder);
     director = new(statistics_saver_director, builder);
 
     call(director, construct_short, created_houses_count);
@@ -147,21 +163,21 @@ void builder_pattern(const int created_houses_count) {
 
 
     printf("--->>> Long versions <<<---\n");
-    builder = (i_statistics_saver_builder *) new(en_full_statistics_builder);
+    builder = (i_statistics_saver_builder *) new(en_statistics_saver_builder);
     director = new(statistics_saver_director, builder);
 
     call(director, construct_long, created_houses_count);
     result = call(builder, get);
     printf("%s\n\n", result);
 
-    builder = (i_statistics_saver_builder *) new(ro_full_statistics_builder);
+    builder = (i_statistics_saver_builder *) new(ro_statistics_saver_builder);
     director = new(statistics_saver_director, builder);
 
     call(director, construct_long, created_houses_count);
     result = call(builder, get);
     printf("%s\n\n", result);
 
-    builder = (i_statistics_saver_builder *) new(ru_full_statistics_builder);
+    builder = (i_statistics_saver_builder *) new(ru_statistics_saver_builder);
     director = new(statistics_saver_director, builder);
 
     call(director, construct_long, created_houses_count);
@@ -321,12 +337,12 @@ void flyweight_show() {
     flyweight_extrinsic *fe1 = new(flyweight_extrinsic, 12, hex_flyweight1);
     flyweight_extrinsic *fe2 = new(flyweight_extrinsic, 13, hex_flyweight2);
     flyweight_extrinsic *fe3 = new(flyweight_extrinsic, 14, hex_flyweight3);
-    
+
     call(fe1, print_info);
     call(fe2, print_info);
     call(fe3, print_info);
-    
-    
+
+
     call(hex_flyweight1, print_color);
     call(hex_flyweight2, print_color);
     call(hex_flyweight3, print_color);
@@ -341,4 +357,84 @@ void strategy() {
     printf("\n\n");
     sc = new(strategy_context, &cs2->i_strategy__iface);
     call(sc, execute_strategy, 1, 2);
+}
+
+void observer() {
+    printf("Observer pattern:\n\n");
+
+    apartment_listing_subject *subject = new(apartment_listing_subject);
+
+    tenant_observer *alice = new(tenant_observer, "Alice", 5);
+    tenant_observer *bob = new(tenant_observer, "Bob", 10);
+    real_estate_agent_observer *agency = new(real_estate_agent_observer, "ImmoPlus");
+
+    call(subject, subscribe, &alice->i_apartment_observer__iface);
+    call(subject, subscribe, &bob->i_apartment_observer__iface);
+    call(subject, subscribe, &agency->i_apartment_observer__iface);
+
+    call(subject, publish_new_listing, new(apartment, 3, 4));
+    printf("\n");
+    call(subject, publish_new_listing, new(apartment, 2, 8));
+    printf("\n");
+
+    call(subject, unsubscribe, &alice->i_apartment_observer__iface);
+    printf("(Alice unsubscribed)\n\n");
+    call(subject, publish_new_listing, new(apartment, 1, 2));
+}
+
+void command() {
+    printf("Command pattern:\n\n");
+
+    apartment *apt = new(apartment, 3, 7);
+    apartment_booking_receiver *receiver = new__apartment_booking_receiver(apt);
+    apartment_command_invoker *invoker = new__apartment_command_invoker();
+
+    call(receiver, print_status);
+
+    reserve_apartment_command *reserve_cmd =
+            new__reserve_apartment_command(receiver, "Maria");
+    call(invoker, execute_command, &reserve_cmd->i_apartment_command__iface);
+    call(receiver, print_status);
+
+    cancel_reservation_command *cancel_cmd =
+            new__cancel_reservation_command(receiver);
+    call(invoker, execute_command, &cancel_cmd->i_apartment_command__iface);
+    call(receiver, print_status);
+
+    printf("\n--- Undo cancel ---\n");
+    call(invoker, undo_last);
+    call(receiver, print_status);
+
+    printf("\n--- Undo reserve ---\n");
+    call(invoker, undo_last);
+    call(receiver, print_status);
+}
+
+void state() {
+    printf("State pattern:\n\n");
+
+    apartment_rental_context *ctx = new__apartment_rental_context(101);
+    call(ctx, print_state);
+
+    printf("\n-- Try to move in without reserving --\n");
+    call(ctx, move_in);
+
+    printf("\n-- Reserve --\n");
+    call(ctx, reserve);
+    call(ctx, print_state);
+
+    printf("\n-- Move in --\n");
+    call(ctx, move_in);
+    call(ctx, print_state);
+
+    printf("\n-- Request maintenance --\n");
+    call(ctx, request_maintenance);
+    call(ctx, print_state);
+
+    printf("\n-- Complete maintenance --\n");
+    call(ctx, complete_maintenance);
+    call(ctx, print_state);
+
+    printf("\n-- Try to complete maintenance again (invalid) --\n");
+    call(ctx, complete_maintenance);
 }

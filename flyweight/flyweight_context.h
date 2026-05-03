@@ -13,7 +13,7 @@ class_(flyweight_context) {
 };
 
 
-flyweight_context *new__flyweight_context();
+constructor(flyweight_context);
 
 
 #endif //LAB2_FLYWEIGHT_CONTEXT_H

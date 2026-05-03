@@ -20,7 +20,7 @@ class_(dynamic_array) {
     base_house **data;
 };
 
-dynamic_array *new__dynamic_array(size_t default_size);
+constructor(dynamic_array, size_t default_size);
 
 
 #endif //DYNAMIC_ARRAY_H

@@ -15,6 +15,6 @@ class_(statistics_saver_director) {
     i_statistics_saver_builder *__builder;
 };
 
-statistics_saver_director *new__statistics_saver_director(i_statistics_saver_builder *builder);
+constructor(statistics_saver_director, i_statistics_saver_builder *builder);
 
 #endif //STATISTICS_SAVER_DIRECTOR_H

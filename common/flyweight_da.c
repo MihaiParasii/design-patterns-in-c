@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 
-void add_back__flyweight_da(void *self, flyweight *object) {
+static void add_back__flyweight_da(void *self, flyweight *object) {
     flyweight_da *array = self;
     if (array->size == array->capacity) {
         array->capacity *= 2;
@@ -13,7 +13,7 @@ void add_back__flyweight_da(void *self, flyweight *object) {
     array->data[array->size++] = object;
 }
 
-void remove_back__flyweight_da(void *self) {
+static void remove_back__flyweight_da(void *self) {
     flyweight_da *array = self;
     if (array->size > 0) {
         free(array->data[array->size - 1]);
@@ -22,12 +22,12 @@ void remove_back__flyweight_da(void *self) {
     }
 }
 
-flyweight_da__vtable flyweight_da__v_table = {
+static flyweight_da__vtable flyweight_da__v_table = {
     .add_back = add_back__flyweight_da,
     .remove_back = remove_back__flyweight_da,
 };
 
-flyweight_da *new__flyweight_da(const size_t default_size) {
+constructor(flyweight_da, const size_t default_size) {
     flyweight_da *array = calloc(1, sizeof(flyweight_da));
 
     array->vtable = &flyweight_da__v_table;

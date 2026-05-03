@@ -90,4 +90,31 @@ add_executable(Lab2 main.c
         flyweight/flyweight_factory.h
         flyweight/flyweight_extrinsic.c
         flyweight/flyweight_extrinsic.h
+        observer/i_apartment_observer.h
+        observer/apartment_listing_subject.c
+        observer/apartment_listing_subject.h
+        observer/tenant_observer.c
+        observer/tenant_observer.h
+        observer/real_estate_agent_observer.c
+        observer/real_estate_agent_observer.h
+        command/i_apartment_command.h
+        command/apartment_booking_receiver.c
+        command/apartment_booking_receiver.h
+        command/reserve_apartment_command.c
+        command/reserve_apartment_command.h
+        command/cancel_reservation_command.c
+        command/cancel_reservation_command.h
+        command/apartment_command_invoker.c
+        command/apartment_command_invoker.h
+        state/i_apartment_state.h
+        state/apartment_rental_context.c
+        state/apartment_rental_context.h
+        state/available_state.c
+        state/available_state.h
+        state/reserved_state.c
+        state/reserved_state.h
+        state/occupied_state.c
+        state/occupied_state.h
+        state/maintenance_state.c
+        state/maintenance_state.h
 )

@@ -18,6 +18,6 @@ class_(app_db_context) {
     int __count_modified;
 };
 
-app_db_context *new__app_db_context();
+constructor(app_db_context);
 
 #endif //LAB2_APP_DB_CONTEXT_H

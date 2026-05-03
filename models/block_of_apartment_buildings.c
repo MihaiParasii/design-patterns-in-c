@@ -48,7 +48,7 @@ block_of_apartment_buildings__vtable block_of_apartment_building_vtable = {
     .add_child = _add_new__block_of_apartment_building
 };
 
-block_of_apartment_buildings *new__block_of_apartment_buildings() {
+constructor(block_of_apartment_buildings) {
     block_of_apartment_buildings *ab = malloc(sizeof(block_of_apartment_buildings));
 
     ab->i_house_component__iface.vtable = &house_component_vtable__block_of_apartment_building;

@@ -3,16 +3,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void print_something__macos_abstraction_impl(void *self) {
+static void print_something(void *self) {
     printf("macOS\n");
     printf("Print something\n");
 }
 
 i_abstraction_impl__vtable print_something__macos_abstraction_impl__vtable = {
-    .print_something = print_something__macos_abstraction_impl
+    .print_something = print_something
 };
 
-macos_abstraction_impl *new__macos_abstraction_impl() {
+constructor(macos_abstraction_impl) {
     macos_abstraction_impl *impl = malloc(sizeof(macos_abstraction_impl));
 
     if (impl == NULL) {

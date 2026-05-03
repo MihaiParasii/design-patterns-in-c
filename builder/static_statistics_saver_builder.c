@@ -3,7 +3,7 @@
 #include "static_statistics_saver_builder.h"
 
 
-char *__alloc_memory(char *source, const size_t size) {
+static char *__alloc_memory(char *source, const size_t size) {
     if (source == NULL) {
         source = malloc(size);
     } else {
@@ -13,7 +13,7 @@ char *__alloc_memory(char *source, const size_t size) {
     return source;
 }
 
-void __append(char *source, const char *text) {
+static void __append(char *source, const char *text) {
     strcat(source, text);
 }
 

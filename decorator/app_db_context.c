@@ -61,7 +61,7 @@ app_db_context__vtable app_db_context__v_table = {
     .get_apartments = get_apartments__app_db_context
 };
 
-app_db_context *new__app_db_context() {
+constructor(app_db_context) {
     app_db_context *context = malloc(sizeof(app_db_context));
     context->vtable = &app_db_context__v_table;
     context->__in_memory_saving = malloc(1);

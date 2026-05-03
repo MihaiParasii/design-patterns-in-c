@@ -8,6 +8,6 @@ class_(en_statistics_saver_builder) {
     char *__full_statistics;
 };
 
-en_statistics_saver_builder *new__en_full_statistics_builder();
+constructor(en_statistics_saver_builder);
 
 #endif //EN_STATISTICS_SAVER_BUILDER_H

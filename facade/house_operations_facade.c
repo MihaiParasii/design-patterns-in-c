@@ -20,7 +20,7 @@ i_house_operations_facade__vtable house_operations_facade__vtable = {
     .buy_apartment = buy_apartment__house_operation_facade
 };
 
-house_operations_facade *new__house_operations_facade() {
+constructor(house_operations_facade) {
     house_operations_facade *facade = malloc(sizeof(house_operations_facade));
     facade->i_house_operations_facade__iface.vtable = &house_operations_facade__vtable;
     return facade;

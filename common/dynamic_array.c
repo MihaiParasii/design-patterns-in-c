@@ -2,8 +2,7 @@
 
 #include <stdlib.h>
 
-void add_back(void *self, base_house *object)
-{
+static void add_back(void *self, base_house *object) {
     dynamic_array *array = self;
     if (array->size == array->capacity) {
         array->capacity *= 2;
@@ -13,7 +12,7 @@ void add_back(void *self, base_house *object)
     array->data[array->size++] = object;
 }
 
-void remove_back(void *self) {
+static void remove_back(void *self) {
     dynamic_array *array = self;
     if (array->size > 0) {
         free(array->data[array->size - 1]);
@@ -22,20 +21,20 @@ void remove_back(void *self) {
     }
 }
 
-void print(void *self) {
+static void print(void *self) {
     dynamic_array *array = self;
     for (int i = 0; i < array->size; ++i) {
         call(array->data[i], print_myself);
     }
 }
 
-dynamic_array__vtable dynamic_array__v_table = {
+static dynamic_array__vtable dynamic_array__v_table = {
     .add_back = add_back,
     .remove_back = remove_back,
     .print = print
 };
 
-dynamic_array *new__dynamic_array(const size_t default_size) {
+constructor(dynamic_array, const size_t default_size) {
     dynamic_array *array = calloc(1, sizeof(dynamic_array));
 
     array->vtable = &dynamic_array__v_table;

@@ -15,7 +15,7 @@ class_(block_of_apartment_buildings) {
     dynamic_array_house_component *children;
 };
 
-block_of_apartment_buildings *new__block_of_apartment_buildings();
+constructor(block_of_apartment_buildings);
 
 
 #endif //BLOCK_OF_APARTMENT_BUILDINGS_H

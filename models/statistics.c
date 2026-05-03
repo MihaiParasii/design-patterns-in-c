@@ -31,7 +31,7 @@ statistics__vtable statistics_v_table = {
     .get_created_houses_count = get_created_houses_count
 };
 
-statistics *new__statistics() {
+constructor(statistics) {
     statistics *s = malloc(sizeof(statistics));
 
     s->__created_houses_count = 0;

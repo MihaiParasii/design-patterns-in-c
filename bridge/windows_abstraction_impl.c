@@ -3,16 +3,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void print_something__windows_abstraction_impl(void *self) {
+static void print_something(void *self) {
     printf("Windows\n");
     printf("Print something\n");
 }
 
-i_abstraction_impl__vtable print_something__windows_abstraction_impl__vtable = {
-    .print_something = print_something__windows_abstraction_impl
+static i_abstraction_impl__vtable print_something__windows_abstraction_impl__vtable = {
+    .print_something = print_something
 };
 
-windows_abstraction_impl *new__windows_abstraction_impl() {
+constructor(windows_abstraction_impl) {
     windows_abstraction_impl *impl = malloc(sizeof(windows_abstraction_impl));
 
     if (impl == NULL) {

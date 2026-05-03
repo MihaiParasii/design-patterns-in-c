@@ -16,7 +16,7 @@ class_(flyweight_da) {
     flyweight **data;
 };
 
-flyweight_da *new__flyweight_da(size_t default_size);
+constructor(flyweight_da,size_t default_size);
 
 
 

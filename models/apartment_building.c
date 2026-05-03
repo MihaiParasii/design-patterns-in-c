@@ -49,7 +49,7 @@ apartment_building__vtable apartment_building_vtable = {
     .add_child = _add_new_apartment_building
 };
 
-apartment_building *new__apartment_building() {
+constructor(apartment_building) {
     apartment_building *ab = malloc(sizeof(apartment_building));
 
     ab->children = new(dynamic_array_house_component, 10);

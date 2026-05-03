@@ -12,7 +12,7 @@ class_(abstraction) {
     abstraction__vtable *vtable;
 };
 
-abstraction *_new__abstraction1_i_abstraction_impl(i_abstraction_impl *impl);
+_constructor(abstraction, i_abstraction_impl *impl);
 
 
 #endif //LAB2_ABSTRACTION_H

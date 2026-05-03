@@ -19,7 +19,7 @@ site_999__vtable site_999_vtable = {
     .print_houses = print_houses_site_999
 };
 
-site_999 *new__site_999() {
+constructor(site_999) {
     site_999 *site_999 = malloc(sizeof(site_999));
     site_999->vtable = &site_999_vtable;
     site_999->_houses = new(dynamic_array, 10);

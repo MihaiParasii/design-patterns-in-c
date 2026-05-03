@@ -2,7 +2,7 @@
 
 #include <stdlib.h>
 
-flyweight *get_flyweight__flyweight_factory(void *self, int color_hex) {
+static flyweight *get_flyweight__flyweight_factory(void *self, int color_hex) {
     flyweight_factory *s = self;
     flyweight_da *da = s->__da;
 
@@ -18,11 +18,11 @@ flyweight *get_flyweight__flyweight_factory(void *self, int color_hex) {
     return nf;
 }
 
-flyweight_factory__vtable flyweight_factory_vtable = {
+static flyweight_factory__vtable flyweight_factory_vtable = {
     .get_flyweight = get_flyweight__flyweight_factory
 };
 
-flyweight_factory *new__flyweight_factory() {
+constructor(flyweight_factory) {
     flyweight_factory *factory = malloc(sizeof(flyweight_factory));
     
     factory->__da = new__flyweight_da(10);

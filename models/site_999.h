@@ -15,6 +15,6 @@ class_(site_999) {
     dynamic_array *_houses;
 };
 
-site_999 *new__site_999();
+constructor(site_999);
 
 #endif //SITE_999_H

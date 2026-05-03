@@ -6,7 +6,7 @@
 #include <_string.h>
 
 
-void external_flat_init_random(external_flat *flat) {
+static void external_flat_init_random(external_flat *flat) {
     static int seeded = 0;
     if (!seeded) {
         srand((unsigned int) time(NULL));

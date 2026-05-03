@@ -16,6 +16,6 @@ class_(apartment_building) {
 };
 
 
-apartment_building * new__apartment_building();
+constructor(apartment_building);
 
 #endif //APARTMENT_BUILDING_H

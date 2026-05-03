@@ -7,6 +7,6 @@ class_(ground_house_creator) {
     extends_(house_creator);
 };
 
-ground_house_creator *new__ground_house_creator();
+constructor(ground_house_creator);
 
 #endif //GROUND_HOUSE_CREATOR_H

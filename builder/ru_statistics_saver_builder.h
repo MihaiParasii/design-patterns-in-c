@@ -10,6 +10,6 @@ class_(ru_statistics_saver_builder) {
     char *__full_statistics;
 };
 
-ru_statistics_saver_builder *new__ru_full_statistics_builder();
+constructor(ru_statistics_saver_builder);
 
 #endif //RU_STATISTICS_SAVER_BUILDER_H

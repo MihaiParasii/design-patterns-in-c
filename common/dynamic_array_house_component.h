@@ -19,7 +19,7 @@ class_(dynamic_array_house_component) {
     i_house_component **data;
 };
 
-dynamic_array_house_component *new__dynamic_array_house_component(size_t default_size);
+constructor(dynamic_array_house_component, size_t default_size);
 
 
 #endif //DYNAMIC_ARRAY_HOUSE_COMPONENT_H

@@ -12,7 +12,7 @@ class_(flyweight) {
     flyweight__vtable *vtable;
 };
 
-flyweight *new__flyweight(int color_hex);
+constructor(flyweight, int color_hex);
 
 
 #endif //LAB2_FLYWEIGHT_H

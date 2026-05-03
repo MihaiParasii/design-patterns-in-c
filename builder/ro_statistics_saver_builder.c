@@ -12,7 +12,7 @@ static i_statistics_saver_builder *with_name(void *self, const char *name) {
     size_t name_len = strlen(name);
 
     s->__full_statistics = s_call(StatisticsSaverBuilder, __alloc_memory, s->__full_statistics,
-                                  (name_len + 2) * sizeof(char))    ;
+                                  (name_len + 2) * sizeof(char));
 
 
     if (s->__full_statistics == NULL) {
@@ -25,7 +25,7 @@ static i_statistics_saver_builder *with_name(void *self, const char *name) {
     return self;
 }
 
-i_statistics_saver_builder *with_header__ro(void *self, const char *header_name) {
+static i_statistics_saver_builder *with_header__ro(void *self, const char *header_name) {
     ro_statistics_saver_builder *s = self;
     char header[256];
     snprintf(header, sizeof(header),
@@ -44,13 +44,13 @@ i_statistics_saver_builder *with_header__ro(void *self, const char *header_name)
     return self;
 }
 
-i_statistics_saver_builder *with_houses_count__ro(void *self, const int created_houses_count) {
+static i_statistics_saver_builder *with_houses_count__ro(void *self, const int created_houses_count) {
     ro_statistics_saver_builder *s = self;
     char count_str[64];
     snprintf(count_str, sizeof(count_str), "Nr. de case create: %d\n", created_houses_count);
 
     s->__full_statistics = s_call(StatisticsSaverBuilder, __alloc_memory, s->__full_statistics,
-                                  (strlen(count_str) + 1) * sizeof(char))    ;
+                                  (strlen(count_str) + 1) * sizeof(char));
 
     if (s->__full_statistics == NULL) {
         return NULL;
@@ -61,7 +61,7 @@ i_statistics_saver_builder *with_houses_count__ro(void *self, const int created_
     return self;
 }
 
-i_statistics_saver_builder *with_company_name__ro(void *self, const char *company_name) {
+static i_statistics_saver_builder *with_company_name__ro(void *self, const char *company_name) {
     ro_statistics_saver_builder *s = self;
     char company_str[256];
     snprintf(company_str, sizeof(company_str), "Compania: %s\n", company_name);
@@ -76,7 +76,7 @@ i_statistics_saver_builder *with_company_name__ro(void *self, const char *compan
     return self;
 }
 
-i_statistics_saver_builder *with_current_time__ro(void *self, const time_t time) {
+static i_statistics_saver_builder *with_current_time__ro(void *self, const time_t time) {
     ro_statistics_saver_builder *s = self;
     char time_str[64];
     const struct tm *tm_info = localtime(&time);
@@ -93,7 +93,7 @@ i_statistics_saver_builder *with_current_time__ro(void *self, const time_t time)
     return self;
 }
 
-char *get__ro(void *self) {
+static char *get__ro(void *self) {
     ro_statistics_saver_builder *s = self;
     char *statistics_to_return = strdup(s->__full_statistics);
     s->__full_statistics = NULL;
@@ -102,7 +102,7 @@ char *get__ro(void *self) {
 }
 
 
-i_statistics_saver_builder__vtable v_table__ro = {
+static i_statistics_saver_builder__vtable v_table__ro = {
     .with_name = with_name,
     .with_header = with_header__ro,
     .with_company_name = with_company_name__ro,
@@ -112,7 +112,7 @@ i_statistics_saver_builder__vtable v_table__ro = {
 };
 
 
-ro_statistics_saver_builder *new__ro_full_statistics_builder() {
+constructor(ro_statistics_saver_builder) {
     ro_statistics_saver_builder *builder = malloc(sizeof(ro_statistics_saver_builder));
 
     builder->i_statistics_saver_builder__iface.vtable = &v_table__ro;

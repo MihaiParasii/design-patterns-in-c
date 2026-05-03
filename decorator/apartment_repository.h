@@ -11,7 +11,7 @@ class_(apartment_repository) {
 };
 
 
-apartment_repository *new__apartment_repository(app_db_context *db_context);
+constructor(apartment_repository, app_db_context *db_context);
 
 
 #endif //LAB2_APARTMENT_REPOSITORY_H

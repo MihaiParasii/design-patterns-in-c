@@ -13,6 +13,8 @@
 #define CAT_I(a,b) a##b
 
 
+#define constructor(type, ...) type* new__##type(__VA_ARGS__)
+#define _constructor(type, ...) type* _new__##type(__VA_ARGS__)
 #define new(type, ...) new__##type(__VA_ARGS__)
 #define _new(type, ...) _new__##type(__VA_ARGS__)
 #define s_new(type, ...) s_new__##type(__VA_ARGS__)

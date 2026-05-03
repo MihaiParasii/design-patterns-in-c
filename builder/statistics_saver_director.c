@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include "statistics_saver_director.h"
 
-void construct_short__director(void *self, const int constructed_houses_count) {
+static void construct_short__director(void *self, const int constructed_houses_count) {
     const statistics_saver_director *director = self;
 
     // call(director->__builder, with_name, "Test name");
@@ -13,7 +13,7 @@ void construct_short__director(void *self, const int constructed_houses_count) {
             ->vtable->with_houses_count(director->__builder, constructed_houses_count);
 }
 
-void construct_long__director(void *self, const int constructed_houses_count) {
+static void construct_long__director(void *self, const int constructed_houses_count) {
     time_t current_time;
     time(&current_time);
 
@@ -27,13 +27,13 @@ void construct_long__director(void *self, const int constructed_houses_count) {
 }
 
 
-statistics_saver_director__vtable vtable__director = {
+static statistics_saver_director__vtable vtable__director = {
     .construct_long = construct_long__director,
     .construct_short = construct_short__director
 };
 
 
-statistics_saver_director *new__statistics_saver_director(i_statistics_saver_builder *builder) {
+constructor(statistics_saver_director, i_statistics_saver_builder *builder) {
     statistics_saver_director *director = malloc(sizeof(statistics_saver_director));
 
     director->vtable = &vtable__director;
