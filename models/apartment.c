@@ -24,24 +24,24 @@
 //     .get_area = _get_area__apartment
 // };
 
-void _update_statistics_for_new_apartment(void) {
+static void _update_statistics_for_new_apartment(void) {
     statistics *statistics = s_call(Statistics, get_instance);
     call(statistics, increase_created_houses);
 }
 
-void print_myself_apartment(void *self) {
+static void print_myself(void *self) {
     printf("I'm an apartment with %d rooms and at %d floor.\n", ((apartment *) self)->base_house__base.number_of_rooms,
            ((apartment *) self)->floor);
 }
 
-void *apartment_clone(void *self) {
+static void *clone(void *self) {
     apartment *s = self;
     apartment *new_apartment = new(apartment, s);
 
     return new_apartment;
 }
 
-char *apartment_to_json(void *self) {
+static char *to_json(void *self) {
     apartment *a = container_of(container_of(self, base_house, i_as_json__iface), apartment, base_house__base);
     
     char *json = malloc(100);
@@ -52,26 +52,26 @@ char *apartment_to_json(void *self) {
     return json;
 }
 
-base_house__vtable apartment_v_table = {
-    .print_myself = print_myself_apartment,
+static base_house__vtable v_table = {
+    .print_myself = print_myself,
 };
 
-i_prototype__vtable apartment_prototype_v_table = {
-    .clone = apartment_clone
+static i_prototype__vtable prototype_v_table = {
+    .clone = clone
 };
 
-i_as_json__vtable apartment_as_json_v_table = {
-    .to_json = apartment_to_json
+static i_as_json__vtable as_json_v_table = {
+    .to_json = to_json
 };
 
-void _init_v_tables_a(apartment *a) {
+static void _init_v_tables_a(apartment *a) {
     if (a == NULL) {
         return;
     }
 
-    a->base_house__base.vtable = &apartment_v_table;
-    a->base_house__base.i_prototype__iface.vtable = &apartment_prototype_v_table;
-    a->base_house__base.i_as_json__iface.vtable = &apartment_as_json_v_table;
+    a->base_house__base.vtable = &v_table;
+    a->base_house__base.i_prototype__iface.vtable = &prototype_v_table;
+    a->base_house__base.i_as_json__iface.vtable = &as_json_v_table;
 }
 
 apartment *new__apartment0(void) {

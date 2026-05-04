@@ -13,6 +13,6 @@ class_(house_creator) {
     const house_creator__vtable *vtable;
 };
 
-void print_a_new_house(void *self);
+constructor(house_creator);
 
 #endif //HOUSE_CREATOR_H

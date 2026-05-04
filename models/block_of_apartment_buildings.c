@@ -2,7 +2,7 @@
 
 #include <stdlib.h>
 
-int _get_rooms_count__block_of_apartment_buildings(void *self) {
+static int get_rooms_count(void *self) {
     const block_of_apartment_buildings *s = container_of(self, block_of_apartment_buildings, i_house_component__iface);
     const int rooms_for_cleaning = 3;
     int total_rooms = 0;
@@ -16,7 +16,7 @@ int _get_rooms_count__block_of_apartment_buildings(void *self) {
     return total_rooms;
 }
 
-double _get_area__block_of_apartment_buildings(void *self) {
+static double get_area(void *self) {
     const block_of_apartment_buildings *s = container_of(self, block_of_apartment_buildings, i_house_component__iface);
     const double median_of_room_surface = 12.5;
     const int rooms_for_cleaning = 3;
@@ -32,26 +32,26 @@ double _get_area__block_of_apartment_buildings(void *self) {
     return total_area;
 }
 
-i_house_component__vtable house_component_vtable__block_of_apartment_building = {
-    .get_rooms_count = _get_rooms_count__block_of_apartment_buildings,
-    .get_area = _get_area__block_of_apartment_buildings
+static i_house_component__vtable house_component_vtable = {
+    .get_rooms_count = get_rooms_count,
+    .get_area = get_area
 };
 
 
-void _add_new__block_of_apartment_building(void *self, i_house_component *component) {
-    const block_of_apartment_buildings *s = self;
+static void add_new(void *_self, i_house_component *component) {
+    SELF(block_of_apartment_buildings);
 
-    call(s->children, add_back, component);
+    call(self->children, add_back, component);
 }
 
-block_of_apartment_buildings__vtable block_of_apartment_building_vtable = {
-    .add_child = _add_new__block_of_apartment_building
+static block_of_apartment_buildings__vtable block_of_apartment_building_vtable = {
+    .add_child = add_new
 };
 
 constructor(block_of_apartment_buildings) {
     block_of_apartment_buildings *ab = malloc(sizeof(block_of_apartment_buildings));
 
-    ab->i_house_component__iface.vtable = &house_component_vtable__block_of_apartment_building;
+    ab->i_house_component__iface.vtable = &house_component_vtable;
     ab->vtable = &block_of_apartment_building_vtable;
     ab->children = new(dynamic_array_house_component, 10);
 

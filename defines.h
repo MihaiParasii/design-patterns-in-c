@@ -30,6 +30,7 @@
 #define implements_(interface) interface interface##__iface
 #define method_(return_type, method_name, ...) return_type (*method_name)(void *self, ##__VA_ARGS__)
 #define static_method_(return_type, method_name, ...) return_type (*method_name)(__VA_ARGS__)
+#define SELF(type) type *self = (type *)_self
 
 #define call(obj, method, ...) ((obj)->vtable->method(obj, ##__VA_ARGS__))
 #define s_call(obj, method, ...) ((obj).s_vtable->method(__VA_ARGS__))

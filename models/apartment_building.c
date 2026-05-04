@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 
-int _get_rooms_count__apartment_building(void *self) {
+static int _get_rooms_count(void *self) {
     const apartment_building *s = container_of(self, apartment_building, i_house_component__iface);
     const int rooms_for_cleaning = 3;
     int total_rooms = 0;
@@ -17,7 +17,7 @@ int _get_rooms_count__apartment_building(void *self) {
     return total_rooms;
 }
 
-double _get_area__apartment_building(void *self) {
+static double _get_area(void *self) {
     const apartment_building *s = container_of(self, apartment_building, i_house_component__iface);
     const double median_of_room_surface = 12.5;
     const int rooms_for_cleaning = 3;
@@ -33,28 +33,28 @@ double _get_area__apartment_building(void *self) {
     return total_area;
 }
 
-i_house_component__vtable house_component_vtable__apartment_building = {
-    .get_rooms_count = _get_rooms_count__apartment_building,
-    .get_area = _get_area__apartment_building
+static i_house_component__vtable house_component_vtable = {
+    .get_rooms_count = _get_rooms_count,
+    .get_area = _get_area
 };
 
 
-void _add_new_apartment_building(void *self, i_house_component *component) {
+static void add_child(void *self, i_house_component *component) {
     const apartment_building *s = self;
 
     call(s->children, add_back, component);
 }
 
-apartment_building__vtable apartment_building_vtable = {
-    .add_child = _add_new_apartment_building
+static apartment_building__vtable vtable = {
+    .add_child = add_child
 };
 
 constructor(apartment_building) {
     apartment_building *ab = malloc(sizeof(apartment_building));
 
     ab->children = new(dynamic_array_house_component, 10);
-    ab->i_house_component__iface.vtable = &house_component_vtable__apartment_building;
-    ab->vtable = &apartment_building_vtable;
+    ab->i_house_component__iface.vtable = &house_component_vtable;
+    ab->vtable = &vtable;
 
     return ab;
 }

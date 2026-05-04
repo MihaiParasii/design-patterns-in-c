@@ -4,16 +4,16 @@
 #include "house_creator.h"
 #include "../models/ground_house.h"
 
-static const house_creator__vtable ground_house_creator_vtable = {
-    .construct_house = (base_house *(*)()) new__ground_house0,
-    .print_a_new_house = print_a_new_house
-};
-
-
 constructor(ground_house_creator) {
-    ground_house_creator *ghc = malloc(sizeof(ground_house_creator));
+    house_creator *hc = new(house_creator);
+    ground_house_creator *ac = realloc(hc, sizeof(ground_house_creator));
+    
+    house_creator__vtable *new_vtable = &(house_creator__vtable) {
+        .construct_house = (base_house *(*)()) new__ground_house0,
+        .print_a_new_house = hc->vtable->print_a_new_house
+    };
 
-    ghc->house_creator__base.vtable = &ground_house_creator_vtable;
+    ac->house_creator__base.vtable = new_vtable;
 
-    return ghc;
+    return ac;
 }

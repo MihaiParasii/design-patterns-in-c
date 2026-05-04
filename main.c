@@ -8,6 +8,24 @@
 #include "command/reserve_apartment_command.h"
 #include "command/cancel_reservation_command.h"
 #include "state/apartment_rental_context.h"
+#include "chain/repair_handler.h"
+#include "iterator/apartment_collection.h"
+#include "iterator/apartment_collection_iterator.h"
+#include "template_method/apartment_inspection.h"
+#include "template_method/ground_house_inspection.h"
+#include "visitor/visitable_apartment.h"
+#include "visitor/visitable_ground_house.h"
+#include "visitor/tax_calculator_visitor.h"
+#include "visitor/area_report_visitor.h"
+#include "memento/apartment_listing.h"
+#include "memento/listing_history.h"
+#include "mediator/apartment_deal_mediator.h"
+#include "mediator/buyer.h"
+#include "mediator/seller.h"
+#include "interpreter/and_expression.h"
+#include "interpreter/or_expression.h"
+#include "interpreter/floor_gt_expression.h"
+#include "interpreter/rooms_gte_expression.h"
 #include "abstract_factory_method/apartment_creator.h"
 #include "abstract_factory_method/ground_house_creator.h"
 #include "common/dynamic_array.h"
@@ -66,16 +84,28 @@ void flyweight_show();
 void strategy();
 
 void observer();
-
 void command();
-
 void state();
+void chain();
+void iterator();
+void template_method();
+void visitor();
+void memento();
+void mediator();
+void interpreter();
 
 
 int main() {
+    chain();
+    // iterator();
+    // template_method();
+    // visitor();
+    // memento();
+    // mediator();
+    // interpreter();
     // observer();
     // command();
-    state();
+    // state();
     // strategy();
     // bridge();
     // proxy();
@@ -437,4 +467,168 @@ void state() {
 
     printf("\n-- Try to complete maintenance again (invalid) --\n");
     call(ctx, complete_maintenance);
+}
+
+void chain() {
+    printf("Chain of Responsibility pattern:\n\n");
+
+    repair_handler *tenant  = new__repair_handler("Tenant",           50);
+    repair_handler *floor_m = new__repair_handler("Floor Manager",   200);
+    repair_handler *build_m = new__repair_handler("Building Manager",1000);
+    repair_handler *owner   = new__repair_handler("Owner",           9999);
+
+    call(&tenant->i_repair_handler__iface,  set_next, &floor_m->i_repair_handler__iface);
+    call(&floor_m->i_repair_handler__iface, set_next, &build_m->i_repair_handler__iface);
+    call(&build_m->i_repair_handler__iface, set_next, &owner->i_repair_handler__iface);
+
+    i_repair_handler *chain = &tenant->i_repair_handler__iface;
+    call(chain, handle, 30,   "Replace light bulb");
+    call(chain, handle, 150,  "Fix leaking pipe");
+    call(chain, handle, 700,  "Replace broken window");
+    call(chain, handle, 5000, "Roof structural repair");
+}
+
+void iterator() {
+    printf("Iterator pattern:\n\n");
+
+    apartment_collection *col = new__apartment_collection();
+    call(col, add, new(apartment, 3, 2));
+    call(col, add, new(apartment, 1, 5));
+    call(col, add, new(apartment, 4, 9));
+    call(col, add, new(apartment, 2, 12));
+
+    i_apartment_iterator *it = call(col, create_iterator);
+    printf("Iterating over %lu apartments:\n", col->__size);
+    while (call(it, has_next)) {
+        apartment *apt = call(it, next);
+        printf("  -> floor %d, %d rooms\n", apt->floor, apt->base_house__base.number_of_rooms);
+    }
+}
+
+void template_method() {
+    printf("Template Method pattern:\n\n");
+
+    apartment_inspection *ai = new__apartment_inspection(new(apartment, 3, 12));
+    run_inspection(&ai->house_inspection__base);
+
+    printf("\n");
+
+    ground_house_inspection *gi = new__ground_house_inspection(new(ground_house, 5, TRUE));
+    run_inspection(&gi->house_inspection__base);
+}
+
+void visitor() {
+    printf("Visitor pattern:\n\n");
+
+    i_visitable_property *properties[4] = {
+        &new__visitable_apartment(new(apartment, 3, 5))->i_visitable_property__iface,
+        &new__visitable_apartment(new(apartment, 2, 11))->i_visitable_property__iface,
+        &new__visitable_ground_house(new(ground_house, 4, TRUE))->i_visitable_property__iface,
+        &new__visitable_ground_house(new(ground_house, 6, FALSE))->i_visitable_property__iface,
+    };
+
+    tax_calculator_visitor *tax = new__tax_calculator_visitor();
+    area_report_visitor    *area = new__area_report_visitor();
+
+    printf("-- Tax calculation --\n");
+    for (int i = 0; i < 4; i++) {
+        call(properties[i], accept, &tax->i_property_visitor__iface);
+    }
+    printf("Total tax: $%.0f\n\n", tax->__total_tax);
+
+    printf("-- Area report --\n");
+    for (int i = 0; i < 4; i++) {
+        call(properties[i], accept, &area->i_property_visitor__iface);
+    }
+    printf("Total area: %.0f m2\n", area->__total_area);
+}
+
+void memento() {
+    printf("Memento pattern:\n\n");
+
+    apartment_listing *listing = new__apartment_listing(42, 85000, "Bright 3-room flat");
+    listing_history   *history = new__listing_history();
+    call(listing, print);
+
+    listing_memento *snap1 = call(listing, save);
+    call(history, push, snap1);
+
+    call(listing, set_price, 92000);
+    call(listing, set_description, "Renovated 3-room flat");
+    call(listing, print);
+
+    listing_memento *snap2 = call(listing, save);
+    call(history, push, snap2);
+
+    call(listing, set_price, 105000);
+    call(listing, set_description, "Luxury renovated flat with parking");
+    call(listing, print);
+
+    printf("\n-- Undo last change --\n");
+    listing_memento *restore1 = call(history, pop);
+    call(listing, restore, restore1);
+    call(listing, print);
+
+    printf("\n-- Undo again --\n");
+    listing_memento *restore2 = call(history, pop);
+    call(listing, restore, restore2);
+    call(listing, print);
+}
+
+void mediator() {
+    printf("Mediator pattern:\n\n");
+
+    seller *s = new__seller("Popescu Ion", 205, 75000);
+    call(s, print_listing);
+    printf("\n");
+
+    apartment_deal_mediator *med = new__apartment_deal_mediator(s, NULL);
+    buyer *b = new__buyer("Maria Ionescu", &med->i_negotiation_mediator__iface);
+    med->__buyer = b;
+
+    call(b, make_offer, 60000);
+    printf("\n");
+    call(b, make_offer, 75000);
+    printf("\n");
+    call(b, make_offer, 80000);
+}
+
+void interpreter() {
+    printf("Interpreter pattern:\n\n");
+
+    apartment *apartments[5] = {
+        new(apartment, 2, 3),
+        new(apartment, 5, 8),
+        new(apartment, 1, 12),
+        new(apartment, 3, 6),
+        new(apartment, 4, 10),
+    };
+
+    i_apartment_expression *floor_gt_4 =
+        &new__floor_gt_expression(4)->i_apartment_expression__iface;
+    i_apartment_expression *rooms_gte_6 =
+        &new__rooms_gte_expression(6)->i_apartment_expression__iface;
+    i_apartment_expression *high_and_spacious =
+        &new__and_expression(floor_gt_4, rooms_gte_6)->i_apartment_expression__iface;
+    i_apartment_expression *any_big =
+        &new__or_expression(
+            &new__rooms_gte_expression(10)->i_apartment_expression__iface,
+            floor_gt_4
+        )->i_apartment_expression__iface;
+
+    printf("Filter: floor > 4 AND rooms >= 6\n");
+    for (int i = 0; i < 5; i++) {
+        if (call(high_and_spacious, interpret, apartments[i])) {
+            printf("  MATCH: floor %d, %d rooms\n",
+                   apartments[i]->floor, apartments[i]->base_house__base.number_of_rooms);
+        }
+    }
+
+    printf("\nFilter: rooms >= 10 OR floor > 4\n");
+    for (int i = 0; i < 5; i++) {
+        if (call(any_big, interpret, apartments[i])) {
+            printf("  MATCH: floor %d, %d rooms\n",
+                   apartments[i]->floor, apartments[i]->base_house__base.number_of_rooms);
+        }
+    }
 }

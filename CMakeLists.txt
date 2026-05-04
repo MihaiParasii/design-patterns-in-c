@@ -117,4 +117,50 @@ add_executable(Lab2 main.c
         state/occupied_state.h
         state/maintenance_state.c
         state/maintenance_state.h
+        chain/i_repair_handler.h
+        chain/repair_handler.c
+        chain/repair_handler.h
+        iterator/i_apartment_iterator.h
+        iterator/apartment_collection.c
+        iterator/apartment_collection.h
+        iterator/apartment_collection_iterator.c
+        iterator/apartment_collection_iterator.h
+        template_method/house_inspection.c
+        template_method/house_inspection.h
+        template_method/apartment_inspection.c
+        template_method/apartment_inspection.h
+        template_method/ground_house_inspection.c
+        template_method/ground_house_inspection.h
+        visitor/i_property_visitor.h
+        visitor/i_visitable_property.h
+        visitor/visitable_apartment.c
+        visitor/visitable_apartment.h
+        visitor/visitable_ground_house.c
+        visitor/visitable_ground_house.h
+        visitor/tax_calculator_visitor.c
+        visitor/tax_calculator_visitor.h
+        visitor/area_report_visitor.c
+        visitor/area_report_visitor.h
+        memento/listing_memento.c
+        memento/listing_memento.h
+        memento/apartment_listing.c
+        memento/apartment_listing.h
+        memento/listing_history.c
+        memento/listing_history.h
+        mediator/i_negotiation_mediator.h
+        mediator/seller.c
+        mediator/seller.h
+        mediator/buyer.c
+        mediator/buyer.h
+        mediator/apartment_deal_mediator.c
+        mediator/apartment_deal_mediator.h
+        interpreter/i_apartment_expression.h
+        interpreter/floor_gt_expression.c
+        interpreter/floor_gt_expression.h
+        interpreter/rooms_gte_expression.c
+        interpreter/rooms_gte_expression.h
+        interpreter/and_expression.c
+        interpreter/and_expression.h
+        interpreter/or_expression.c
+        interpreter/or_expression.h
 )
