@@ -4,8 +4,10 @@
 #include "i_apartment_observer.h"
 
 vtable_for(apartment_listing_subject) {
-    method_(void, subscribe,   i_apartment_observer *observer);
+    method_(void, subscribe, i_apartment_observer *observer);
+
     method_(void, unsubscribe, i_apartment_observer *observer);
+
     method_(void, publish_new_listing, apartment *apt);
 };
 

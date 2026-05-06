@@ -4,7 +4,8 @@
 #include "../models/apartment.h"
 
 vtable_for(i_apartment_iterator) {
-    method_(int,       has_next);
+    method_(int, has_next);
+
     method_(apartment*, next);
 };
 

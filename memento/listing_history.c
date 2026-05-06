@@ -18,14 +18,14 @@ static listing_memento *pop(void *self) {
     return h->__stack[--h->__top];
 }
 
-static listing_history__vtable listing_history_vtable = {
+static listing_history__vtable vtable = {
     .push = push,
     .pop  = pop,
 };
 
 constructor(listing_history) {
     listing_history *h = malloc(sizeof(listing_history));
-    h->vtable = &listing_history_vtable;
+    h->vtable = &vtable;
     h->__top  = 0;
     return h;
 }

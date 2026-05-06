@@ -31,6 +31,7 @@
 #define method_(return_type, method_name, ...) return_type (*method_name)(void *self, ##__VA_ARGS__)
 #define static_method_(return_type, method_name, ...) return_type (*method_name)(__VA_ARGS__)
 #define SELF(type) type *self = (type *)_self
+#define SELF_OF(type, child) type *self = container_of(_self, type, child)
 
 #define call(obj, method, ...) ((obj)->vtable->method(obj, ##__VA_ARGS__))
 #define s_call(obj, method, ...) ((obj).s_vtable->method(__VA_ARGS__))

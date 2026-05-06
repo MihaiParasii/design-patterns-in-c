@@ -16,7 +16,7 @@ class_(strategy_context) {
 };
 
 
-strategy_context *new__strategy_context(i_strategy *strategy);
+constructor(strategy_context, i_strategy *strategy);
 
 
 #endif //LAB2_STRATEGY_CONTEXT_H

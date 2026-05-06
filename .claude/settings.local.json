@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cmake -B build -S . -DCMAKE_BUILD_TYPE=Debug)",
+      "Bash(cmake --build build)",
+      "Bash(./build/Lab2 *)",
+      "Bash(cmake --build build -q)",
+      "Bash(cmake -B build -S .)"
+    ]
+  }
+}

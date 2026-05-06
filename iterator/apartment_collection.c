@@ -2,7 +2,7 @@
 #include "apartment_collection_iterator.h"
 #include <stdlib.h>
 
-static void add__apartment_collection(void *self, apartment *apt) {
+static void add(void *self, apartment *apt) {
     apartment_collection *c = self;
     if (c->__size == c->__capacity) {
         c->__capacity *= 2;
@@ -11,22 +11,23 @@ static void add__apartment_collection(void *self, apartment *apt) {
     c->__items[c->__size++] = apt;
 }
 
-static i_apartment_iterator *create_iterator__apartment_collection(void *self) {
-    apartment_collection *c = self;
-    apartment_collection_iterator *it = new__apartment_collection_iterator(c);
+static i_apartment_iterator *create_iterator(void *_self) {
+    SELF(apartment_collection);
+    apartment_collection_iterator *it = new(apartment_collection_iterator, self);
     return &it->i_apartment_iterator__iface;
 }
 
-static apartment_collection__vtable apartment_collection_vtable = {
-    .add             = add__apartment_collection,
-    .create_iterator = create_iterator__apartment_collection,
+static apartment_collection__vtable vtable = {
+    .add = add,
+    .create_iterator = create_iterator,
 };
 
 constructor(apartment_collection) {
     apartment_collection *c = malloc(sizeof(apartment_collection));
-    c->vtable     = &apartment_collection_vtable;
+    c->vtable = &vtable;
     c->__capacity = 4;
-    c->__size     = 0;
-    c->__items    = malloc(c->__capacity * sizeof(apartment *));
+    c->__size = 0;
+    c->__items = malloc(c->__capacity * sizeof(apartment *));
+
     return c;
 }

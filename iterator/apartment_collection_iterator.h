@@ -7,7 +7,7 @@
 class_(apartment_collection_iterator) {
     implements_(i_apartment_iterator);
     apartment_collection *__collection;
-    size_t                __index;
+    size_t __index;
 };
 
 constructor(apartment_collection_iterator, apartment_collection *collection);

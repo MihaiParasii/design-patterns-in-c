@@ -7,7 +7,7 @@ class_(concrete_strategy_1) {
     implements_(i_strategy);
 };
 
-concrete_strategy_1 *new__concrete_strategy_1();
+constructor(concrete_strategy_1);
 
 
 #endif //LAB2_CONCRETE_STRATEGY_1_H

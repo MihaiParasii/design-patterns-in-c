@@ -8,6 +8,6 @@ class_(concrete_strategy_2) {
 };
 
 
-concrete_strategy_2 *new__concrete_strategy_2();
+constructor(concrete_strategy_2);
 
 #endif //LAB2_CONCRETE_STRATEGY_2_H

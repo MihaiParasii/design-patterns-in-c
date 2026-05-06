@@ -84,14 +84,23 @@ void flyweight_show();
 void strategy();
 
 void observer();
+
 void command();
+
 void state();
+
 void chain();
+
 void iterator();
+
 void template_method();
+
 void visitor();
+
 void memento();
+
 void mediator();
+
 void interpreter();
 
 
@@ -416,18 +425,16 @@ void command() {
     printf("Command pattern:\n\n");
 
     apartment *apt = new(apartment, 3, 7);
-    apartment_booking_receiver *receiver = new__apartment_booking_receiver(apt);
-    apartment_command_invoker *invoker = new__apartment_command_invoker();
+    apartment_booking_receiver *receiver = new(apartment_booking_receiver, apt);
+    apartment_command_invoker *invoker = new(apartment_command_invoker);
 
     call(receiver, print_status);
 
-    reserve_apartment_command *reserve_cmd =
-            new__reserve_apartment_command(receiver, "Maria");
+    reserve_apartment_command *reserve_cmd = new(reserve_apartment_command, receiver, "Maria");
     call(invoker, execute_command, &reserve_cmd->i_apartment_command__iface);
     call(receiver, print_status);
 
-    cancel_reservation_command *cancel_cmd =
-            new__cancel_reservation_command(receiver);
+    cancel_reservation_command *cancel_cmd =new(cancel_reservation_command, receiver);
     call(invoker, execute_command, &cancel_cmd->i_apartment_command__iface);
     call(receiver, print_status);
 
@@ -472,19 +479,19 @@ void state() {
 void chain() {
     printf("Chain of Responsibility pattern:\n\n");
 
-    repair_handler *tenant  = new__repair_handler("Tenant",           50);
-    repair_handler *floor_m = new__repair_handler("Floor Manager",   200);
-    repair_handler *build_m = new__repair_handler("Building Manager",1000);
-    repair_handler *owner   = new__repair_handler("Owner",           9999);
+    repair_handler *tenant = new__repair_handler("Tenant", 50);
+    repair_handler *floor_m = new__repair_handler("Floor Manager", 200);
+    repair_handler *build_m = new__repair_handler("Building Manager", 1000);
+    repair_handler *owner = new__repair_handler("Owner", 9999);
 
-    call(&tenant->i_repair_handler__iface,  set_next, &floor_m->i_repair_handler__iface);
+    call(&tenant->i_repair_handler__iface, set_next, &floor_m->i_repair_handler__iface);
     call(&floor_m->i_repair_handler__iface, set_next, &build_m->i_repair_handler__iface);
     call(&build_m->i_repair_handler__iface, set_next, &owner->i_repair_handler__iface);
 
     i_repair_handler *chain = &tenant->i_repair_handler__iface;
-    call(chain, handle, 30,   "Replace light bulb");
-    call(chain, handle, 150,  "Fix leaking pipe");
-    call(chain, handle, 700,  "Replace broken window");
+    call(chain, handle, 30, "Replace light bulb");
+    call(chain, handle, 150, "Fix leaking pipe");
+    call(chain, handle, 700, "Replace broken window");
     call(chain, handle, 5000, "Roof structural repair");
 }
 
@@ -528,7 +535,7 @@ void visitor() {
     };
 
     tax_calculator_visitor *tax = new__tax_calculator_visitor();
-    area_report_visitor    *area = new__area_report_visitor();
+    area_report_visitor *area = new__area_report_visitor();
 
     printf("-- Tax calculation --\n");
     for (int i = 0; i < 4; i++) {
@@ -547,7 +554,7 @@ void memento() {
     printf("Memento pattern:\n\n");
 
     apartment_listing *listing = new__apartment_listing(42, 85000, "Bright 3-room flat");
-    listing_history   *history = new__listing_history();
+    listing_history *history = new__listing_history();
     call(listing, print);
 
     listing_memento *snap1 = call(listing, save);
@@ -605,16 +612,16 @@ void interpreter() {
     };
 
     i_apartment_expression *floor_gt_4 =
-        &new__floor_gt_expression(4)->i_apartment_expression__iface;
+            &new__floor_gt_expression(4)->i_apartment_expression__iface;
     i_apartment_expression *rooms_gte_6 =
-        &new__rooms_gte_expression(6)->i_apartment_expression__iface;
+            &new__rooms_gte_expression(6)->i_apartment_expression__iface;
     i_apartment_expression *high_and_spacious =
-        &new__and_expression(floor_gt_4, rooms_gte_6)->i_apartment_expression__iface;
+            &new__and_expression(floor_gt_4, rooms_gte_6)->i_apartment_expression__iface;
     i_apartment_expression *any_big =
-        &new__or_expression(
-            &new__rooms_gte_expression(10)->i_apartment_expression__iface,
-            floor_gt_4
-        )->i_apartment_expression__iface;
+            &new__or_expression(
+                &new__rooms_gte_expression(10)->i_apartment_expression__iface,
+                floor_gt_4
+            )->i_apartment_expression__iface;
 
     printf("Filter: floor > 4 AND rooms >= 6\n");
     for (int i = 0; i < 5; i++) {

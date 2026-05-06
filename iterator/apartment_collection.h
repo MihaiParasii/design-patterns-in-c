@@ -4,15 +4,16 @@
 #include "i_apartment_iterator.h"
 
 vtable_for(apartment_collection) {
-    method_(void,                 add,             apartment *apt);
+    method_(void, add, apartment *apt);
+
     method_(i_apartment_iterator*, create_iterator);
 };
 
 class_(apartment_collection) {
     apartment_collection__vtable *vtable;
     apartment **__items;
-    size_t      __size;
-    size_t      __capacity;
+    size_t __size;
+    size_t __capacity;
 };
 
 constructor(apartment_collection);

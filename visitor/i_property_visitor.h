@@ -5,7 +5,8 @@
 #include "../models/ground_house.h"
 
 vtable_for(i_property_visitor) {
-    method_(void, visit_apartment,    apartment    *apt);
+    method_(void, visit_apartment, apartment *apt);
+
     method_(void, visit_ground_house, ground_house *gh);
 };
 
